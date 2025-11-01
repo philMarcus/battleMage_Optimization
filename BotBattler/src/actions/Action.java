@@ -15,5 +15,7 @@ public interface Action {
 
 	// return the resource paying for the action
 	public Resource getResource();
+	
+	public int getCost();
 
 }

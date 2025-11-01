@@ -49,4 +49,11 @@ public class Block implements Action {
 		return "blocks " + direction.toString() + ", reducing total threat by " + reduced + ". " + res.toString();
 	}
 
+	@Override
+	// Block cost 1 when used
+	public int getCost() {
+	
+		return 1;
+	}
+
 }

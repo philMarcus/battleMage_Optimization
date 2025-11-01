@@ -23,15 +23,15 @@ public class MagicBlast implements Action {
 
 	public MagicBlast(Resource r) {
 		res = r;
+		cost = baseCost-used;	// They get 1 cheaper after each use!!!!
 	}
 
 	@Override
-	// Your first Magic Blast costs 10 of any resource.
-	// They get 1 cheaper after each use!!!!
+
 	//
 	// returns true if cost is payable and paid.
 	public boolean payCost() {
-		cost = baseCost-used;
+
 		return res.pay(cost);
 	}
 
@@ -62,6 +62,11 @@ public class MagicBlast implements Action {
 	@Override
 	public String toString() {
 		return "casts Magic Blast for " + damage + " damage, at a cost of " + cost + ". " + res.toString();
+	}
+
+	@Override
+	public int getCost() {
+		return cost;
 	}
 
 }

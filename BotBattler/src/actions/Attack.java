@@ -21,6 +21,7 @@ public class Attack implements Action {
 	public Attack(int n, Resource r) {
 		numHits = n;
 		res = r;
+		cost = (int) Math.pow(3, numHits) - 2;
 	}
 
 	@Override
@@ -31,7 +32,7 @@ public class Attack implements Action {
 	// cost 25 for 3 hits!!!
 	// returns true if cost is payable and paid.
 	public boolean payCost() {
-		cost = (int) Math.pow(3, numHits) - 2;
+		
 		return res.pay(cost);
 	}
 
@@ -61,6 +62,11 @@ public class Attack implements Action {
 
 	public String toString() {
 		return "hits for " + damage + " damage, at a cost of " + cost + ". " + res.toString();
+	}
+
+	@Override
+	public int getCost() {
+		return cost;
 	}
 
 }

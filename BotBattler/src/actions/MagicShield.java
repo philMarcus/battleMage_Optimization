@@ -20,6 +20,7 @@ public class MagicShield implements Action {
 	public MagicShield(int pow, Resource r) {
 		power = pow;
 		res = r;
+		cost = (int) Math.pow(2, power);
 	}
 
 	@Override
@@ -32,7 +33,7 @@ public class MagicShield implements Action {
 	// power 4 costs 16
 	// returns true if cost is payable and paid.
 	public boolean payCost() {
-		cost = (int) Math.pow(2, power);
+
 		return res.pay(cost);
 	}
 
@@ -60,6 +61,12 @@ public class MagicShield implements Action {
 	public String toString() {
 		return "casts a level " + power + " Magic Shield, reducing threat by " + reducedDmg + ", at a cost of " + cost
 				+ ". " + res.toString();
+	}
+
+	@Override
+	public int getCost() {
+
+		return cost;
 	}
 
 }

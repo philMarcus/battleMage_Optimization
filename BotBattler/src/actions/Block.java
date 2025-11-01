@@ -56,4 +56,10 @@ public class Block implements Action {
 		return 1;
 	}
 
+	@Override
+	public String getName() {
+		
+		return "Block";
+	}
+
 }

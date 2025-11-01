@@ -69,4 +69,10 @@ public class Attack implements Action {
 		return cost;
 	}
 
+	@Override
+	public String getName() {
+		
+		return "Attack";
+	}
+
 }

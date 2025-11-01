@@ -11,20 +11,14 @@ public class AnalyzedAction {
 	int oi; // opponent's current hp
 	int pf; // players hp after this action
 	int of; // opponent's hp after this action
-	
-	
-	//Scale factors, determined in optimization phase zero.
+
+	// Scale factors, determined in optimization phase zero.
 	double SF_COST = 1.0;
 	double SF_RATIO_GAIN = 1.0;
 	double SF_RATIO_LOSS = 1.0;
 	double SF_PLAYER_HP_DELTA = 1.0;
 	double SF_OPP_HP_DELTA = 1.0;
 
-	//flags for action types
-	public boolean isBlast; 
-	public boolean isBlock;
-	public boolean isAttack;
-	public boolean isShield;
 
 	public AnalyzedAction(Action a, int pi, int oi, int pf, int of) {
 		this.a = a;
@@ -40,40 +34,45 @@ public class AnalyzedAction {
 		// of this action. Want to maximize.
 		return pf * oi - pi * of;
 	}
-	
-	//calculate heuristic score with parametric weights
-	double getScore(double w_cost, double w_ratioGain, double w_ratioLoss,
-			double w_playerHPdelta, double w_oppHPdelta,
-			double w_attackBias, double w_blockBias,
-			double w_blastBias, double w_shieldBias) {
-		
-		//1. Feature calculation
-		double f_cost = a.getCost(); 
-	    double f_ratioGain = (double) pf * oi;
-	    double f_ratioLoss = (double) pi * of;
-	    double f_playerHPdelta = (double) pf - pi;
-	    double f_oppHPdelta = (double) of - oi;
-	    
-	 // --- 2. Scaled Feature (sc_) Calculation ---
-	    double sc_cost = f_cost / SF_COST;
-	    double sc_ratioGain = f_ratioGain / SF_RATIO_GAIN;
-	    double sc_ratioLoss = f_ratioLoss / SF_RATIO_LOSS;
-	    double sc_playerHPdelta = f_playerHPdelta / SF_PLAYER_HP_DELTA;
-	    double sc_oppHPdelta = f_oppHPdelta / SF_OPP_HP_DELTA;
-	    
-	  //3. Calculate Score
-	    double score = (w_playerHPdelta * sc_playerHPdelta)
-	            - (w_oppHPdelta * sc_oppHPdelta) //a negative delta should increase score
-	            +(w_ratioGain * sc_ratioGain) 
-	            -(w_ratioLoss * sc_ratioLoss) 
-	            -(w_cost * sc_cost); //cost is a penalty so subtract
-	    if (isBlock) score+= w_blockBias;
-	    if (isAttack) score+= w_attackBias;
-	    if (isBlast) score+= w_blastBias;
-	    if (isShield) score+= w_shieldBias;
-		
-	return score;
-		
+
+	// calculate heuristic score with parametric weights
+	double getScore(double w_cost, double w_ratioGain, double w_ratioLoss, double w_playerHPdelta, double w_oppHPdelta,
+			double w_attackBias, double w_blockBias, double w_blastBias, double w_shieldBias) {
+
+		// 1. Feature calculation
+		double f_cost = a.getCost();
+		double f_ratioGain = (double) pf * oi;
+		double f_ratioLoss = (double) pi * of;
+		double f_playerHPdelta = (double) pf - pi;
+		double f_oppHPdelta = (double) of - oi;
+
+		// --- 2. Scaled Feature (sc_) Calculation ---
+		double sc_cost = f_cost / SF_COST;
+		double sc_ratioGain = f_ratioGain / SF_RATIO_GAIN;
+		double sc_ratioLoss = f_ratioLoss / SF_RATIO_LOSS;
+		double sc_playerHPdelta = f_playerHPdelta / SF_PLAYER_HP_DELTA;
+		double sc_oppHPdelta = f_oppHPdelta / SF_OPP_HP_DELTA;
+
+		// 3. Calculate Score
+		double score = (w_playerHPdelta * sc_playerHPdelta)
+				- (w_oppHPdelta * sc_oppHPdelta) // a negative delta should
+																								// increase score
+				+ (w_ratioGain * sc_ratioGain)
+				- (w_ratioLoss * sc_ratioLoss)
+				- (w_cost * sc_cost); // cost is a penalty
+				//add the correct action bias to the score																					// so subtract
+		switch (a.getName()) {
+		case "Block":
+			score += w_blockBias;
+		case "Attack":
+			score += w_attackBias;
+		case "Blast":
+			score += w_blastBias;
+		case "Shield":
+			score += w_shieldBias;
+		}
+		return score;
+
 	}
 
 	public Action getA() {

@@ -69,4 +69,10 @@ public class MagicShield implements Action {
 		return cost;
 	}
 
+	@Override
+	public String getName() {
+		
+		return "Shield";
+	}
+
 }

@@ -13,7 +13,7 @@ import game.Opponent;
 import game.Resource;
 import game.Threat;
 
-public class BattleMageChampion implements Character {
+public class OptimizingChampion implements Character {
 
 	// We plan to use HP for all actions except blocks.
 	private Resource hp = new Resource("HP", 195);
@@ -25,7 +25,7 @@ public class BattleMageChampion implements Character {
 	// afford them
 	int usedMagicBlasts = 0;
 
-	//track actions used for statistical purposes
+	// track actions used for statistical purposes
 	static int totalBlasts;
 	static int totalBlocks;
 	static int totalShields;
@@ -56,13 +56,13 @@ public class BattleMageChampion implements Character {
 		// add block analysis
 		if (canBlock(stamina, 0)) {
 			AnalyzedAction aa = new AnalyzedAction(new Block(dir, stamina), myHP, oppHP, myHP - unblockableDmg, oppHP);
-		
+
 			actions.add(aa);
 		}
-		//there's a slight possiblity to want to block with HP
+		// there's a slight possiblity to want to block with HP
 		if (canBlock(hp, 1)) {
 			AnalyzedAction aa = new AnalyzedAction(new Block(dir, hp), myHP, oppHP, myHP - unblockableDmg, oppHP);
-		
+
 			actions.add(aa);
 		}
 
@@ -71,7 +71,7 @@ public class BattleMageChampion implements Character {
 			int unShieldedDmg = (int) (threatInfo.getTotalThreat() * Math.pow(0.5, i));
 			AnalyzedAction aa = new AnalyzedAction(new MagicShield(i, hp), myHP, oppHP,
 					myHP - unShieldedDmg - (int) Math.pow(2, i), oppHP);
-			
+
 			actions.add(aa);
 		}
 
@@ -79,14 +79,13 @@ public class BattleMageChampion implements Character {
 		for (int i = 1; i <= affordAttack(hp, 0); i++) {
 			AnalyzedAction aa = new AnalyzedAction(new Attack(i, hp), myHP, oppHP,
 					myHP - threat - (int) Math.pow(3, i) + 2, oppHP - i * dmgPerHit);
-			
-			
-			//check for death blow & return this action if will kill the opponent
-			if(oppHP-i*dmgPerHit<=0)
+
+			// check for death blow & return this action if will kill the opponent
+			if (oppHP - i * dmgPerHit <= 0)
 				return aa.getA();
-			
-			//add to list only if we can survive it. 
-			if(i <= affordAttack(hp, 1))
+
+			// add to list only if we can survive it.
+			if (i <= affordAttack(hp, 1))
 				actions.add(aa);
 		}
 
@@ -94,13 +93,12 @@ public class BattleMageChampion implements Character {
 		if (canAffordBlast(hp, 0)) {
 			AnalyzedAction aa = new AnalyzedAction(new MagicBlast(hp), myHP, oppHP,
 					myHP - threat - 10 + usedMagicBlasts, oppHP - dmgPerBlast);
-			
-			
-			//check for death blow & return this action if will kill the opponent
-			if(oppHP-dmgPerBlast<=0)
+
+			// check for death blow & return this action if will kill the opponent
+			if (oppHP - dmgPerBlast <= 0)
 				return aa.getA();
-			//add to list only if we can survive it. 
-			if(canAffordBlast(hp,1))
+			// add to list only if we can survive it.
+			if (canAffordBlast(hp, 1))
 				actions.add(aa);
 		}
 
@@ -110,20 +108,19 @@ public class BattleMageChampion implements Character {
 			if (a.getScore() > actions.get(maxIndex).getScore())
 				maxIndex = actions.indexOf(a);
 		}
-
 		if (actions.size() > 0) {
-			if (actions.get(maxIndex).getA().getName()=="Blast") {
+			if (actions.get(maxIndex).getA().getName() == "Blast") {
 				usedMagicBlasts++;
 				totalBlasts++;
 			}
 
-			if (actions.get(maxIndex).getA().getName()=="Shield")
+			if (actions.get(maxIndex).getA().getName() == "Shield")
 				totalShields++;
 
-			if (actions.get(maxIndex).getA().getName()=="Block")
+			if (actions.get(maxIndex).getA().getName() == "Block")
 				totalBlocks++;
 
-			if (actions.get(maxIndex).getA().getName()=="Attack")
+			if (actions.get(maxIndex).getA().getName() == "Attack")
 				totalAttacks++;
 			if (print) {
 				System.out.println("\nBlasts: " + totalBlasts + "\nShields: " + totalShields + "\nAttacks: "
@@ -241,5 +238,3 @@ public class BattleMageChampion implements Character {
 	}
 
 }
-
-

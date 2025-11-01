@@ -69,4 +69,10 @@ public class MagicBlast implements Action {
 		return cost;
 	}
 
+	@Override
+	public String getName() {
+	
+		return "Blast";
+	}
+
 }

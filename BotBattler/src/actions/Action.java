@@ -16,6 +16,10 @@ public interface Action {
 	// return the resource paying for the action
 	public Resource getResource();
 	
+	//return the cost of this action, in resources
 	public int getCost();
+	
+	//return the simple name of the action
+	public String getName();
 
 }

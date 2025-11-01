@@ -2,7 +2,7 @@ package game;
 
 import characters.DumbFighter;
 import characters.SadMage;
-import characters.BattleMageChampion;
+import optimization.BattleMageChampion;
 //import characters.BattleMageChampion;
 import characters.BadBlocker;
 

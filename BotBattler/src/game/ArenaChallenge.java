@@ -4,12 +4,12 @@ import characters.BadBlocker;
 import characters.DumbFighter;
 import characters.GoodBlocker;
 import characters.SadMage;
-import characters.BattleMageChampion;
+import optimization.BattleMageChampion;
 import characters.Blaster;
 
 public class ArenaChallenge {
 
-	private static int num = 100000;
+	private static int num = 1000;
 
 	// runs battles with increasing opponent level until player dies
 	// returns the level on which the player died

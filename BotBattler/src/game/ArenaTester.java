@@ -4,7 +4,7 @@ import characters.BadBlocker;
 import characters.DumbFighter;
 import characters.GoodBlocker;
 import characters.SadMage;
-import characters.BattleMageChampion;
+import optimization.BattleMageChampion;
 import characters.Blaster;
 
 public class ArenaTester {

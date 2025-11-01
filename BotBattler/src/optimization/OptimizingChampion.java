@@ -134,12 +134,14 @@ public class OptimizingChampion implements Character {
 
 		// *****find the highest-scoring action in the list*******
 		int maxIndex = 0;
-		int maxScore = Integer.MIN_VALUE;
+		double maxScore = -1000000000;
 
 		for (AnalyzedAction a : actions) {
-			if (a.getScore() > maxScore) {
+			double score = a.getScore(w_cost, w_ratioGain, w_ratioLoss, w_playerHPdelta,
+					w_oppHPdelta, w_attackBias, w_blockBias, w_blastBias, w_shieldBias);
+			if (score > maxScore) {
 				maxIndex = actions.indexOf(a);
-				maxScore = a.getScore();
+				maxScore = score;
 			}
 		}
 

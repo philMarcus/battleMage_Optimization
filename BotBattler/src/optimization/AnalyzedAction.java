@@ -62,17 +62,23 @@ public class AnalyzedAction {
 				+ (w_ratioGain * sc_ratioGain)
 				- (w_ratioLoss * sc_ratioLoss)
 				- (w_cost * sc_cost); // cost is a penalty
-				//add the correct action bias to the score																					// so subtract
+		// add the correct action bias to the score // so subtract
+		
 		switch (a.getName()) {
 		case "Block":
 			score += w_blockBias;
+			break;
 		case "Attack":
 			score += w_attackBias;
+			break;
 		case "Blast":
 			score += w_blastBias;
+			break;
 		case "Shield":
 			score += w_shieldBias;
+			break;
 		}
+		//System.out.println(score);
 		return score;
 
 	}

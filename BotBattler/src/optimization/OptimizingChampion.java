@@ -102,36 +102,44 @@ public class OptimizingChampion implements Character {
 				actions.add(aa);
 		}
 
-		// find the highest-scoring action in the list
+		// *****find the highest-scoring action in the list*******
 		int maxIndex = 0;
+		int maxScore= Integer.MIN_VALUE;
+
 		for (AnalyzedAction a : actions) {
-			if (a.getScore() > actions.get(maxIndex).getScore())
+			if (a.getScore() > maxScore) {
 				maxIndex = actions.indexOf(a);
-		}
-		if (actions.size() > 0) {
-			if (actions.get(maxIndex).getA().getName() == "Blast") {
-				usedMagicBlasts++;
-				totalBlasts++;
+				maxScore = a.getScore();
 			}
-
-			if (actions.get(maxIndex).getA().getName() == "Shield")
-				totalShields++;
-
-			if (actions.get(maxIndex).getA().getName() == "Block")
-				totalBlocks++;
-
-			if (actions.get(maxIndex).getA().getName() == "Attack")
-				totalAttacks++;
-			if (print) {
-				System.out.println("\nBlasts: " + totalBlasts + "\nShields: " + totalShields + "\nAttacks: "
-						+ totalAttacks + "\nBlocks: " + totalBlocks + "\nDefaults: " + totalDefaults);
-				System.out.println("\nTotal Actions: "
-						+ (totalBlasts + totalBlocks + totalShields + totalAttacks + totalDefaults));
-			}
-			return actions.get(maxIndex).getA();
 		}
+		
+			if (actions.size() > 0) {
+				if (actions.get(maxIndex).getA().getName() == "Blast") {
+					usedMagicBlasts++;
+					totalBlasts++;
+				}
+
+				if (actions.get(maxIndex).getA().getName() == "Shield")
+					totalShields++;
+
+				if (actions.get(maxIndex).getA().getName() == "Block")
+					totalBlocks++;
+
+				if (actions.get(maxIndex).getA().getName() == "Attack")
+					totalAttacks++;
+				if (print) {
+					System.out.println("\nBlasts: " + totalBlasts + "\nShields: " + totalShields + "\nAttacks: "
+							+ totalAttacks + "\nBlocks: " + totalBlocks + "\nDefaults: " + totalDefaults);
+					System.out.println("\nTotal Actions: "
+							+ (totalBlasts + totalBlocks + totalShields + totalAttacks + totalDefaults));
+				}
+				return actions.get(maxIndex).getA();
+			}
+		
 		totalDefaults++;
+
 		return new Attack(1, hp);
+
 	}
 
 	// calculate the largest attack power that will keep

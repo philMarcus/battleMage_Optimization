@@ -36,8 +36,10 @@ public class AnalyzedAction {
 	}
 
 	// calculate heuristic score with parametric weights
-	double getScore(double w_cost, double w_ratioGain, double w_ratioLoss, double w_playerHPdelta, double w_oppHPdelta,
-			double w_attackBias, double w_blockBias, double w_blastBias, double w_shieldBias) {
+	double getScore(double w_cost, double w_ratioGain,
+			double w_ratioLoss, double w_playerHPdelta, double w_oppHPdelta,
+			double w_attackBias, double w_blockBias, double w_blastBias,
+			double w_shieldBias) {
 
 		// 1. Feature calculation
 		double f_cost = a.getCost();

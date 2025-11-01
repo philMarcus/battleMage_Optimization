@@ -15,9 +15,21 @@ import game.Threat;
 
 public class OptimizingChampion implements Character {
 
+	// We have 10 strategic parameters that we'll optimize.
+	double w_cost;
+	double w_ratioGain;
+	double w_ratioLoss;
+	double w_playerHPdelta;
+	double w_oppHPdelta;
+	double w_attackBias;
+	double w_blockBias;
+	double w_blastBias;
+	double w_shieldBias;
+	double w_alloc; // how many hp to allocate to stamina
+
 	// We plan to use HP for all actions except blocks.
-	private Resource hp = new Resource("HP", 195);
-	private Resource stamina = new Resource("Stamina", 5);
+	private Resource hp;
+	private Resource stamina;
 
 	int blockableDmg; // the largest amount of dmg that could be blocked
 
@@ -35,6 +47,24 @@ public class OptimizingChampion implements Character {
 
 	// our list of possible actions, with their outcome on our and opponent's HP
 	ArrayList<AnalyzedAction> actions;
+
+	public OptimizingChampion(double w_alloc, double w_cost, double w_ratioGain, double w_ratioLoss, double w_playerHPdelta,
+			double w_oppHPdelta, double w_attackBias, double w_blockBias, double w_blastBias, double w_shieldBias) {
+
+		this.w_cost = w_cost;
+		this.w_ratioGain = w_ratioGain;
+		this.w_ratioLoss = w_ratioLoss;
+		this.w_playerHPdelta = w_playerHPdelta;
+		this.w_oppHPdelta = w_oppHPdelta;
+		this.w_attackBias = w_attackBias;
+		this.w_blockBias = w_blockBias;
+		this.w_blastBias = w_blastBias;
+		this.w_shieldBias = w_shieldBias;
+
+		hp = new Resource("HP", 200 - (int)Math.round(w_alloc));
+		stamina = new Resource("Stamina", (int)Math.round(w_alloc));
+
+	}
 
 	@Override
 	public Action takeTurn(Threat threatInfo, Opponent oppInfo) {
@@ -104,7 +134,7 @@ public class OptimizingChampion implements Character {
 
 		// *****find the highest-scoring action in the list*******
 		int maxIndex = 0;
-		int maxScore= Integer.MIN_VALUE;
+		int maxScore = Integer.MIN_VALUE;
 
 		for (AnalyzedAction a : actions) {
 			if (a.getScore() > maxScore) {
@@ -112,30 +142,30 @@ public class OptimizingChampion implements Character {
 				maxScore = a.getScore();
 			}
 		}
-		
-			if (actions.size() > 0) {
-				if (actions.get(maxIndex).getA().getName() == "Blast") {
-					usedMagicBlasts++;
-					totalBlasts++;
-				}
 
-				if (actions.get(maxIndex).getA().getName() == "Shield")
-					totalShields++;
-
-				if (actions.get(maxIndex).getA().getName() == "Block")
-					totalBlocks++;
-
-				if (actions.get(maxIndex).getA().getName() == "Attack")
-					totalAttacks++;
-				if (print) {
-					System.out.println("\nBlasts: " + totalBlasts + "\nShields: " + totalShields + "\nAttacks: "
-							+ totalAttacks + "\nBlocks: " + totalBlocks + "\nDefaults: " + totalDefaults);
-					System.out.println("\nTotal Actions: "
-							+ (totalBlasts + totalBlocks + totalShields + totalAttacks + totalDefaults));
-				}
-				return actions.get(maxIndex).getA();
+		if (actions.size() > 0) {
+			if (actions.get(maxIndex).getA().getName() == "Blast") {
+				usedMagicBlasts++;
+				totalBlasts++;
 			}
-		
+
+			if (actions.get(maxIndex).getA().getName() == "Shield")
+				totalShields++;
+
+			if (actions.get(maxIndex).getA().getName() == "Block")
+				totalBlocks++;
+
+			if (actions.get(maxIndex).getA().getName() == "Attack")
+				totalAttacks++;
+			if (print) {
+				System.out.println("\nBlasts: " + totalBlasts + "\nShields: " + totalShields + "\nAttacks: "
+						+ totalAttacks + "\nBlocks: " + totalBlocks + "\nDefaults: " + totalDefaults);
+				System.out.println("\nTotal Actions: "
+						+ (totalBlasts + totalBlocks + totalShields + totalAttacks + totalDefaults));
+			}
+			return actions.get(maxIndex).getA();
+		}
+
 		totalDefaults++;
 
 		return new Attack(1, hp);

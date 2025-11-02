@@ -47,11 +47,13 @@ public class OptimizingChampion implements Character {
 
 	// our list of possible actions, with their outcome on our and opponent's HP
 	ArrayList<AnalyzedAction> actions;
-	
-	String battleId; //hold the uniqur battle ID, for data logging 
 
-	public OptimizingChampion(double w_alloc, double w_cost, double w_ratioGain, double w_ratioLoss, double w_playerHPdelta,
-			double w_oppHPdelta, double w_attackBias, double w_blockBias, double w_blastBias, double w_shieldBias) {
+	String battleId; // hold the uniqur battle ID, for data logging
+	int turnNum; //turn number - for data logging
+
+	public OptimizingChampion(double w_alloc, double w_cost, double w_ratioGain, double w_ratioLoss,
+			double w_playerHPdelta, double w_oppHPdelta, double w_attackBias, double w_blockBias, double w_blastBias,
+			double w_shieldBias) {
 
 		this.w_cost = w_cost;
 		this.w_ratioGain = w_ratioGain;
@@ -63,13 +65,17 @@ public class OptimizingChampion implements Character {
 		this.w_blastBias = w_blastBias;
 		this.w_shieldBias = w_shieldBias;
 
-		hp = new Resource("HP", 200 - (int)Math.round(w_alloc));
-		stamina = new Resource("Stamina", (int)Math.round(w_alloc));
+		hp = new Resource("HP", 200 - (int) Math.round(w_alloc));
+		stamina = new Resource("Stamina", (int) Math.round(w_alloc));
+		
+		turnNum=0; //set turn counter
 
 	}
 
 	@Override
 	public Action takeTurn(Threat threatInfo, Opponent oppInfo) {
+		turnNum++; //increment turn counter
+		
 		// calculate calculable variables for analysis,
 		// the things we want to know to make a good decision.
 
@@ -139,8 +145,8 @@ public class OptimizingChampion implements Character {
 		double maxScore = -1000000000;
 
 		for (AnalyzedAction a : actions) {
-			double score = a.getScore(w_cost, w_ratioGain, w_ratioLoss, w_playerHPdelta,
-					w_oppHPdelta, w_attackBias, w_blockBias, w_blastBias, w_shieldBias);
+			double score = a.getScore(w_cost, w_ratioGain, w_ratioLoss, w_playerHPdelta, w_oppHPdelta, w_attackBias,
+					w_blockBias, w_blastBias, w_shieldBias);
 			if (score > maxScore) {
 				maxIndex = actions.indexOf(a);
 				maxScore = score;
@@ -278,9 +284,13 @@ public class OptimizingChampion implements Character {
 	public String toString() {
 		return "Optimizing Champion Phase Zero";
 	}
-	
+
 	public void setBattleId(String battleId) {
 		this.battleId = battleId;
+	}
+
+	public void setTurnNum(int turn) {
+		turnNum = turn;
 	}
 
 }

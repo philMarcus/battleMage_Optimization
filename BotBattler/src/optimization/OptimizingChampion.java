@@ -289,8 +289,5 @@ public class OptimizingChampion implements Character {
 		this.battleId = battleId;
 	}
 
-	public void setTurnNum(int turn) {
-		turnNum = turn;
-	}
 
 }

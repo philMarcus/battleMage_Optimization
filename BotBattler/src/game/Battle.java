@@ -5,7 +5,7 @@ import java.util.Scanner;
 import actions.Action;
 import actions.MagicBlast;
 import characters.Character;
-
+import java.util.UUID;
 
 //This class represents a single battle between the player's class
 //and the Opponent
@@ -43,6 +43,9 @@ public class Battle {
 
 	// input from the user, only used to press Enter between turns.
 	private Scanner input = new Scanner(System.in);
+	
+	//unique battle Identifier
+	private String battleId;
 
 	public Battle(Character p, int level) {
 		this.level = level;
@@ -50,6 +53,7 @@ public class Battle {
 		opp = new Opponent(level);
 		currentThreat = new Threat(level);
 		playerHP = player.getHitPointResource();
+		this.battleId = UUID.randomUUID().toString(); //random unique id
 		
 		//player hit points count towards the 200 resources!
 		totalResources = playerHP.getMaxValue();
@@ -162,5 +166,11 @@ public class Battle {
 	public boolean isPlayerWin() {
 		return playerWin;
 	}
+
+	public String getBattleId() {
+		return battleId;
+	}
+
+
 
 }

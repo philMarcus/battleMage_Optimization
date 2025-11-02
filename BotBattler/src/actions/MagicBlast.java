@@ -75,4 +75,10 @@ public class MagicBlast implements Action {
 		return "Blast";
 	}
 
+	@Override
+	public String getDetail() {
+		//magic blast has no detail parameteres
+		return null;
+	}
+
 }

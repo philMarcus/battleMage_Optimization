@@ -75,4 +75,10 @@ public class Attack implements Action {
 		return "Attack";
 	}
 
+	@Override
+	public String getDetail() {
+		
+		return numHits + "-HIT";
+	}
+
 }

@@ -17,8 +17,11 @@ public class Optimizer_Phase_Zero {
 			//in order to generate feature scaling data
 			OptimizingChampion player = new OptimizingChampion(5,0.5, 3, 3, 0.5,
 					0.5, 0, 0, 0, 0);
-			//BattleMageChampion player = new BattleMageChampion();
+
 			Battle b = new Battle(player, level);
+			
+			player.setBattleId(b.getBattleId()); //give the battlID to the optimizer for logging
+			
 			if (b.doBattle(false, false)) //battles return "true" when won.
 				level++;
 			else

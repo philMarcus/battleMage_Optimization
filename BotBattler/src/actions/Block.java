@@ -62,4 +62,10 @@ public class Block implements Action {
 		return "Block";
 	}
 
+	@Override
+	public String getDetail() {
+	
+		return direction.name();
+	}
+
 }

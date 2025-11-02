@@ -75,4 +75,10 @@ public class MagicShield implements Action {
 		return "Shield";
 	}
 
+	@Override
+	public String getDetail() {
+		
+		return power + "-POWER";
+	}
+
 }

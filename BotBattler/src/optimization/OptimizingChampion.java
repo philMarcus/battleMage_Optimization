@@ -47,6 +47,8 @@ public class OptimizingChampion implements Character {
 
 	// our list of possible actions, with their outcome on our and opponent's HP
 	ArrayList<AnalyzedAction> actions;
+	
+	String battleId; //hold the uniqur battle ID, for data logging 
 
 	public OptimizingChampion(double w_alloc, double w_cost, double w_ratioGain, double w_ratioLoss, double w_playerHPdelta,
 			double w_oppHPdelta, double w_attackBias, double w_blockBias, double w_blastBias, double w_shieldBias) {
@@ -274,7 +276,11 @@ public class OptimizingChampion implements Character {
 
 	@Override
 	public String toString() {
-		return "Mr. Marcus";
+		return "Optimizing Champion Phase Zero";
+	}
+	
+	public void setBattleId(String battleId) {
+		this.battleId = battleId;
 	}
 
 }

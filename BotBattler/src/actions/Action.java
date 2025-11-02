@@ -21,5 +21,8 @@ public interface Action {
 	
 	//return the simple name of the action
 	public String getName();
+	
+	//return a string uniquely identifying any action sub-type
+	public String getDetail();
 
 }

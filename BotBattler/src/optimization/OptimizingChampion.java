@@ -50,6 +50,8 @@ public class OptimizingChampion implements Character {
 
 	String battleId; // hold the uniqur battle ID, for data logging
 	int turnNum; //turn number - for data logging
+	
+	String turnData; //turn-level data for logging 
 
 	public OptimizingChampion(double w_alloc, double w_cost, double w_ratioGain, double w_ratioLoss,
 			double w_playerHPdelta, double w_oppHPdelta, double w_attackBias, double w_blockBias, double w_blastBias,
@@ -64,6 +66,7 @@ public class OptimizingChampion implements Character {
 		this.w_blockBias = w_blockBias;
 		this.w_blastBias = w_blastBias;
 		this.w_shieldBias = w_shieldBias;
+		this.w_alloc = w_alloc;
 
 		hp = new Resource("HP", 200 - (int) Math.round(w_alloc));
 		stamina = new Resource("Stamina", (int) Math.round(w_alloc));
@@ -139,14 +142,20 @@ public class OptimizingChampion implements Character {
 			if (canAffordBlast(hp, 1))
 				actions.add(aa);
 		}
-
+		
+		//create string for turn level data
+		turnData = battleId +","+ oppInfo.getLevel()+","+turnNum+","+hp.getValue()
+		+ "," + oppInfo.getHitPoints()+","+threatInfo.getQuadrantThreat(1)+","+
+		threatInfo.getQuadrantThreat(2)+","+threatInfo.getQuadrantThreat(3)+","+
+		threatInfo.getQuadrantThreat(4)+","+(int) Math.round(w_alloc)+",";
+		
 		// *****find the highest-scoring action in the list*******
 		int maxIndex = 0;
 		double maxScore = -1000000000;
 
 		for (AnalyzedAction a : actions) {
 			double score = a.getScore(w_cost, w_ratioGain, w_ratioLoss, w_playerHPdelta, w_oppHPdelta, w_attackBias,
-					w_blockBias, w_blastBias, w_shieldBias);
+					w_blockBias, w_blastBias, w_shieldBias,turnData);
 			if (score > maxScore) {
 				maxIndex = actions.indexOf(a);
 				maxScore = score;

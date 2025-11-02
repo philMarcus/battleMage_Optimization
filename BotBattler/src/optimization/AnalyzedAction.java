@@ -39,7 +39,7 @@ public class AnalyzedAction {
 	double getScore(double w_cost, double w_ratioGain,
 			double w_ratioLoss, double w_playerHPdelta, double w_oppHPdelta,
 			double w_attackBias, double w_blockBias, double w_blastBias,
-			double w_shieldBias) {
+			double w_shieldBias, String turnData) {
 
 		// 1. Feature calculation
 		double f_cost = a.getCost();
@@ -79,7 +79,11 @@ public class AnalyzedAction {
 			break;
 		}
 
-		
+		if (Optimizer_Phase_Zero.turnActionLogWriter != null) {
+		    Optimizer_Phase_Zero.turnActionLogWriter.println(turnData+ 
+		    		f_cost +","+f_ratioGain+","+f_ratioLoss+","+f_playerHPdelta+
+		    		","+f_oppHPdelta+","+a.getName()+","+a.getDetail()+": "+a.getResource().getName());
+		}
 		
 		return score;
 

@@ -78,7 +78,9 @@ public class AnalyzedAction {
 			score += w_shieldBias;
 			break;
 		}
-		//System.out.println(score);
+
+		
+		
 		return score;
 
 	}

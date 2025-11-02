@@ -39,7 +39,10 @@ public class Optimizer_Phase_Zero {
 				level++;
 			else
 				isOver = true;
+			//log the battle outcome
+			battleOutcomeLogWriter.println(b.getBattleId() + "," +b.isPlayerWin());
 		}
+
 		return level;
 	}
 
@@ -56,7 +59,7 @@ public class Optimizer_Phase_Zero {
 
             // If the file was just created, write the header row.
             if (isActionFileNew) {
-                turnActionLogWriter.println("battle_id,turn_number,action_type,action_detail,f_alloc,f_cost,f_ratioGain,f_ratioLoss,f_playerHPdelta,f_oppHPdelta,level,player_hp_start,opp_hp_start,threat_1,threat_2,threat_3,threat_4");
+                turnActionLogWriter.println("battle_id,level,turn,player_hp_start,opp_hp_start,threat_1,threat_2,threat_3,threat_4,f_alloc,f_cost,f_ratioGain,f_ratioLoss,f_playerHPdelta,f_oppHPdelta,action_type,action_detail");
                 System.out.println("Created new action log with header.");
             }
 

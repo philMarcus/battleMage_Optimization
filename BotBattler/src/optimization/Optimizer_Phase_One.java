@@ -10,10 +10,24 @@ import game.Battle;
 
 public class Optimizer_Phase_One {
 
-	private static int num = 100;
+	private static int numPerChallengeSet = 100;
+	private static int numSets = 10;
 
 	public static PrintWriter challengeOutcomeLogWriter;
 	public static final String OUTCOME_LOG = "data/phase_one_challenge_outcomes.csv";
+	
+	//define parameters
+	static double w_alloc ;
+	static double w_cost ;
+	static double w_ratioGain ;
+	static double w_ratioLoss ;
+	static double w_playerHPdelta ;
+	static double w_oppHPdelta ;
+	static double w_attackBias;
+	static double w_blockBias ;
+	static double w_blastBias ;
+	static double w_shieldBias;
+	
 
 	// runs battles with increasing opponent level until player dies
 	// returns the level on which the player died
@@ -22,28 +36,6 @@ public class Optimizer_Phase_One {
 		boolean isOver = false;
 		while (!isOver) {
 
-			// MONTE CARLO!
-			Random rand = new Random();
-			// In PHASE ONE:
-			// use exploratory values for weights:
-
-			// --- 1. Generate 6 Feature Weights (Range [0.0, 1.0]) ---
-			// rand.nextDouble() already returns a value between 0.0 (inclusive)
-			// and 1.0 (exclusive), which is exactly what you want.
-			double w_alloc = rand.nextDouble();
-			double w_cost = rand.nextDouble();
-			double w_ratioGain = rand.nextDouble();
-			double w_ratioLoss = rand.nextDouble();
-			double w_playerHPdelta = rand.nextDouble();
-			double w_oppHPdelta = rand.nextDouble();
-
-			// --- 2. Generate 4 Bias Weights (Range [-1.0, 1.0]) ---
-			// To get a range of [-1.0, 1.0], we use: (rand.nextDouble() * 2.0) - 1.0
-			// This scales the [0, 1] range to [0, 2] and then shifts it to [-1, 1].
-			double w_attackBias = (rand.nextDouble() * 2.0) - 1.0;
-			double w_blockBias = (rand.nextDouble() * 2.0) - 1.0;
-			double w_blastBias = (rand.nextDouble() * 2.0) - 1.0;
-			double w_shieldBias = (rand.nextDouble() * 2.0) - 1.0;
 			//
 			OptimizingChampion player = new OptimizingChampion(w_alloc, w_cost, w_ratioGain, w_ratioLoss,
 					w_playerHPdelta, w_oppHPdelta, w_attackBias, w_blockBias, w_blastBias, w_shieldBias);
@@ -87,17 +79,46 @@ public class Optimizer_Phase_One {
 			// ---Start Experiment ---
 			System.out.println("Starting Phase 1 data generation...");
 
-			int totalLevels = 0;
+			for(int n=0;n<numSets;n++) {
+			// MONTE CARLO!
+			Random rand = new Random();
+			// In PHASE ONE:
+			// use exploratory values for weights:
 
-			for (int i = 0; i < num; i++) {
+			// --- 1. Generate 6 Feature Weights (Range [0.0, 1.0]) ---
+			// rand.nextDouble() already returns a value between 0.0 (inclusive)
+			// and 1.0 (exclusive), which is exactly what you want.
+			w_alloc = rand.nextDouble();
+			 w_cost = rand.nextDouble();
+			 w_ratioGain = rand.nextDouble();
+			 w_ratioLoss = rand.nextDouble();
+			 w_playerHPdelta = rand.nextDouble();
+			 w_oppHPdelta = rand.nextDouble();
+
+			// --- 2. Generate 4 Bias Weights (Range [-1.0, 1.0]) ---
+			// To get a range of [-1.0, 1.0], we use: (rand.nextDouble() * 2.0) - 1.0
+			// This scales the [0, 1] range to [0, 2] and then shifts it to [-1, 1].
+			w_attackBias = (rand.nextDouble() * 2.0) - 1.0;
+			w_blockBias = (rand.nextDouble() * 2.0) - 1.0;
+			w_blastBias = (rand.nextDouble() * 2.0) - 1.0;
+			w_shieldBias = (rand.nextDouble() * 2.0) - 1.0;
+			
+			int totalLevels = 0;
+			for (int i = 0; i < numPerChallengeSet; i++) {
+
+	
+
 				int lev = runChallenge();
 				totalLevels += lev;
-				System.out.println("Died on level " + lev + "\n");
-
+				//System.out.println("Died on level " + lev + "\n");
 			}
-			double avgLevel = (double) totalLevels / num;
-			challengeOutcomeLogWriter.println(avgLevel);
-			System.out.println("Average Level: " + avgLevel);
+			double avgLevel = (double) totalLevels / numPerChallengeSet;
+			String datastr = w_alloc + "," + w_cost + "," + w_ratioGain + "," + w_ratioLoss + ","
+					+ w_playerHPdelta + "," + w_oppHPdelta + "," + w_attackBias + "," + w_blockBias + "," + w_blastBias
+					+ "," + w_shieldBias+","+avgLevel;
+			challengeOutcomeLogWriter.println(datastr);
+			System.out.println(datastr);
+			}
 		}
 
 		catch (IOException e) {

@@ -86,6 +86,7 @@ public class Optimizer_Phase_Two {
 			// ---Start Experiment ---
 			System.out.println("Starting Phase 2 data generation...");
 
+			double maxLevel = 0;
 			for(int n=0;n<numSets;n++) {
 			// MONTE CARLO!
 			Random rand = new Random();
@@ -121,6 +122,8 @@ public class Optimizer_Phase_Two {
 					+ "," + w_shieldBias+","+avgLevel;
 			challengeOutcomeLogWriter.println(datastr);
 			System.out.println("Challenge Set "+n+": "+datastr);
+			if (avgLevel > maxLevel) maxLevel = avgLevel;
+			System.out.println("Max Level so far: "+maxLevel);
 			}
 		}
 

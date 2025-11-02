@@ -8,13 +8,13 @@ import java.io.PrintWriter;
 
 import game.Battle;
 
-public class Optimizer_Phase_One {
+public class Optimizer_Phase_Two {
 
-	private static int numPerChallengeSet = 100;
-	private static int numSets = 5000;
+	private static int numPerChallengeSet = 1000;
+	private static int numSets = 10;
 
 	public static PrintWriter challengeOutcomeLogWriter;
-	public static final String OUTCOME_LOG = "data/phase_one_challenge_outcomes.csv";
+	public static final String OUTCOME_LOG = "data/phase_two_challenge_outcomes.csv";
 	
 	//define parameters
 	static double w_alloc ;
@@ -52,6 +52,13 @@ public class Optimizer_Phase_One {
 
 		return level;
 	}
+	
+	public static double getRandomDouble(Random rand, double min, double max) {
+	    // rand.nextDouble() returns a value in [0.0, 1.0)
+	    // (max - min) scales the range
+	    // + min shifts the range to start at 'min'
+	    return min + (rand.nextDouble() * (max - min));
+	}
 
 	public static void main(String[] args) {
 
@@ -77,32 +84,28 @@ public class Optimizer_Phase_One {
 			}
 
 			// ---Start Experiment ---
-			System.out.println("Starting Phase 1 data generation...");
+			System.out.println("Starting Phase 2 data generation...");
 
 			for(int n=0;n<numSets;n++) {
 			// MONTE CARLO!
 			Random rand = new Random();
-			// In PHASE ONE:
-			// use exploratory values for weights:
+			// Helper method to get a random double within a specific [min, max] range
+			// This is more robust than the Phase 1 method as it works for any range.
 
-			// --- 1. Generate 6 Feature Weights (Range [0.0, 1.0]) ---
-			// rand.nextDouble() already returns a value between 0.0 (inclusive)
-			// and 1.0 (exclusive), which is exactly what you want.
-			w_alloc = rand.nextDouble();
-			 w_cost = rand.nextDouble();
-			 w_ratioGain = rand.nextDouble();
-			 w_ratioLoss = rand.nextDouble();
-			 w_playerHPdelta = rand.nextDouble();
-			 w_oppHPdelta = rand.nextDouble();
 
-			// --- 2. Generate 4 Bias Weights (Range [-1.0, 1.0]) ---
-			// To get a range of [-1.0, 1.0], we use: (rand.nextDouble() * 2.0) - 1.0
-			// This scales the [0, 1] range to [0, 2] and then shifts it to [-1, 1].
-			w_attackBias = (rand.nextDouble() * 2.0) - 1.0;
-			w_blockBias = (rand.nextDouble() * 2.0) - 1.0;
-			w_blastBias = (rand.nextDouble() * 2.0) - 1.0;
-			w_shieldBias = (rand.nextDouble() * 2.0) - 1.0;
-			
+			// --- Generate 10 Weights in Range determined in Phase 1 ---
+						w_alloc = getRandomDouble(rand, 0.243, 1.000);
+						w_cost = getRandomDouble(rand, 0.231, 1.000);
+						w_ratioGain = getRandomDouble(rand, 0.469, 1.000);
+						w_ratioLoss = getRandomDouble(rand, 0.182, 1.000);
+						w_playerHPdelta = getRandomDouble(rand, 0.566, 1.000);
+						w_oppHPdelta = getRandomDouble(rand, 0.163, 1.000);
+
+						// Note the negative minimums for the bias weights
+						w_attackBias = getRandomDouble(rand, -0.578, 1.000);
+						w_blockBias = getRandomDouble(rand, 0.016, 1.000);
+						w_blastBias = getRandomDouble(rand, 0.162, 1.000);
+						w_shieldBias = getRandomDouble(rand, -0.634, 1.000);
 			int totalLevels = 0;
 			for (int i = 0; i < numPerChallengeSet; i++) {
 
@@ -117,7 +120,7 @@ public class Optimizer_Phase_One {
 					+ w_playerHPdelta + "," + w_oppHPdelta + "," + w_attackBias + "," + w_blockBias + "," + w_blastBias
 					+ "," + w_shieldBias+","+avgLevel;
 			challengeOutcomeLogWriter.println(datastr);
-			System.out.println(datastr);
+			System.out.println("Challenge Set "+n+": "+datastr);
 			}
 		}
 

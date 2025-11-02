@@ -13,11 +13,11 @@ public class AnalyzedAction {
 	int of; // opponent's hp after this action
 
 	// Scale factors, determined in optimization phase zero.
-	double SF_COST = 1.0;
-	double SF_RATIO_GAIN = 1.0;
-	double SF_RATIO_LOSS = 1.0;
-	double SF_PLAYER_HP_DELTA = 1.0;
-	double SF_OPP_HP_DELTA = 1.0;
+	private static final double SF_COST = 128.0000;
+	private static final double SF_RATIO_GAIN = 22748.0000;
+	private static final double SF_RATIO_LOSS = 24765.0000;
+	private static final double SF_PLAYER_HP_DELTA = 161.0000;
+	private static final double SF_OPP_HP_DELTA = 52.0000;
 
 
 	public AnalyzedAction(Action a, int pi, int oi, int pf, int of) {
@@ -39,7 +39,7 @@ public class AnalyzedAction {
 	double getScore(double w_cost, double w_ratioGain,
 			double w_ratioLoss, double w_playerHPdelta, double w_oppHPdelta,
 			double w_attackBias, double w_blockBias, double w_blastBias,
-			double w_shieldBias, String turnData) {
+			double w_shieldBias/*, String turnData*/) {  //in phase zero, we needed to log turnData
 
 		// 1. Feature calculation
 		double f_cost = a.getCost();
@@ -79,11 +79,12 @@ public class AnalyzedAction {
 			break;
 		}
 
-		if (Optimizer_Phase_Zero.turnActionLogWriter != null) {
-		    Optimizer_Phase_Zero.turnActionLogWriter.println(turnData+ 
-		    		f_cost +","+f_ratioGain+","+f_ratioLoss+","+f_playerHPdelta+
-		    		","+f_oppHPdelta+","+a.getName()+","+a.getDetail()+": "+a.getResource().getName());
-		}
+		//in phase zero, we logged every action analysis to determine scale factors
+//		if (Optimizer_Phase_Zero.turnActionLogWriter != null) {
+//		    Optimizer_Phase_Zero.turnActionLogWriter.println(turnData+ 
+//		    		f_cost +","+f_ratioGain+","+f_ratioLoss+","+f_playerHPdelta+
+//		    		","+f_oppHPdelta+","+a.getName()+","+a.getDetail()+": "+a.getResource().getName());
+//		}
 		
 		return score;
 

@@ -11,7 +11,7 @@ import game.Battle;
 public class Optimizer_Phase_Two {
 
 	private static int numPerChallengeSet = 1000;
-	private static int numSets = 10;
+	private static int numSets = 5000;
 
 	public static PrintWriter challengeOutcomeLogWriter;
 	public static final String OUTCOME_LOG = "data/phase_two_challenge_outcomes.csv";

@@ -13,10 +13,10 @@ public class AnalyzedAction {
 	int of; // opponent's hp after this action
 
 	// Scale factors, determined in optimization phase zero.
-	private static final double SF_COST = 128.0000;
-	private static final double SF_RATIO_GAIN = 22748.0000;
-	private static final double SF_RATIO_LOSS = 24765.0000;
-	private static final double SF_PLAYER_HP_DELTA = 161.0000;
+	private static final double SF_COST = 79.0000;
+	private static final double SF_RATIO_GAIN = 9373.0000;
+	private static final double SF_RATIO_LOSS = 10500.0000;
+	private static final double SF_PLAYER_HP_DELTA = 134.0000;
 	private static final double SF_OPP_HP_DELTA = 52.0000;
 
 
@@ -39,7 +39,7 @@ public class AnalyzedAction {
 	double getScore(double w_cost, double w_ratioGain,
 			double w_ratioLoss, double w_playerHPdelta, double w_oppHPdelta,
 			double w_attackBias, double w_blockBias, double w_blastBias,
-			double w_shieldBias/*, String turnData*/) {  //in phase zero, we needed to log turnData
+			double w_shieldBias /*,String turnData*/) {  //in phase zero, we needed to log turnData
 
 		// 1. Feature calculation
 		double f_cost = a.getCost();

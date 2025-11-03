@@ -131,6 +131,22 @@ public class OptimizingChampion implements Character {
 			if (i <= affordAttack(hp, 1))
 				actions.add(aa);
 		}
+		
+		// add attack analysis (STAMINA)
+				for (int i = 1; i <= affordAttack(stamina, 0); i++) {
+					// Player HP is only reduced by the threat, not the action cost
+					AnalyzedAction aa = new AnalyzedAction(new Attack(i, stamina), myHP, oppHP,
+							myHP - threat, oppHP - i * dmgPerHit);
+
+					// check for death blow & return this action if will kill the opponent
+					if (oppHP - i * dmgPerHit <= 0)
+						return aa.getA();
+
+					// add to list only if we can survive the threat
+					// (Stamina cost doesn't affect HP)
+					if (myHP - threat > 0) 
+						actions.add(aa);
+				}
 
 		// add blast analysis
 		if (canAffordBlast(hp, 0)) {

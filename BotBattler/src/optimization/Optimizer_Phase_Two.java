@@ -10,11 +10,11 @@ import game.Battle;
 
 public class Optimizer_Phase_Two {
 
-	private static int numPerChallengeSet = 1000;
-	private static int numSets = 5000;
+	private static int numPerChallengeSet = 200;
+	private static int numSets = 500000;
 
 	public static PrintWriter challengeOutcomeLogWriter;
-	public static final String OUTCOME_LOG = "data/phase_two_challenge_outcomes.csv";
+	public static final String OUTCOME_LOG = "data/phase_one_NEW_challenge_outcomes.csv";
 	
 	//define parameters
 	static double w_alloc ;
@@ -95,18 +95,18 @@ public class Optimizer_Phase_Two {
 
 
 			// --- Generate 10 Weights in Range determined in Phase 1 ---
-						w_alloc = getRandomDouble(rand, 0.243, 1.000);
-						w_cost = getRandomDouble(rand, 0.231, 1.000);
-						w_ratioGain = getRandomDouble(rand, 0.469, 1.000);
-						w_ratioLoss = getRandomDouble(rand, 0.182, 1.000);
-						w_playerHPdelta = getRandomDouble(rand, 0.566, 1.000);
-						w_oppHPdelta = getRandomDouble(rand, 0.163, 1.000);
+						w_alloc = getRandomDouble(rand, 0, 1.000);
+						w_cost = getRandomDouble(rand, 0, 1.000);
+						w_ratioGain = getRandomDouble(rand, 0.683, 1.000);
+						w_ratioLoss = getRandomDouble(rand, 0.0, 0.694);
+						w_playerHPdelta = getRandomDouble(rand, 0.0, 1.000);
+						w_oppHPdelta = getRandomDouble(rand, 0.520, 1.000);
 
 						// Note the negative minimums for the bias weights
-						w_attackBias = getRandomDouble(rand, -0.578, 1.000);
-						w_blockBias = getRandomDouble(rand, 0.016, 1.000);
-						w_blastBias = getRandomDouble(rand, 0.162, 1.000);
-						w_shieldBias = getRandomDouble(rand, -0.634, 1.000);
+						w_attackBias = getRandomDouble(rand, 0.378, 1.000);
+						w_blockBias = getRandomDouble(rand, 0.119,0.915);
+						w_blastBias = getRandomDouble(rand, -1.0, 1.000);
+						w_shieldBias = getRandomDouble(rand, -1, 0.379);
 			int totalLevels = 0;
 			for (int i = 0; i < numPerChallengeSet; i++) {
 

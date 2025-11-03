@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 
 import game.Battle;
 
-public class Optimizer_Phase_Two {
+public class Optimizer_Phase_One_Refined {
 
 	private static int numPerChallengeSet = 1000;
 	private static int numSets = 10000;

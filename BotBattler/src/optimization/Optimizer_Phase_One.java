@@ -11,7 +11,7 @@ import game.Battle;
 public class Optimizer_Phase_One {
 
 	private static int numPerChallengeSet = 100;
-	private static int numSets = 5000;
+	private static int numSets = 100000;
 
 	public static PrintWriter challengeOutcomeLogWriter;
 	public static final String OUTCOME_LOG = "data/phase_one_challenge_outcomes.csv";
@@ -79,6 +79,7 @@ public class Optimizer_Phase_One {
 			// ---Start Experiment ---
 			System.out.println("Starting Phase 1 data generation...");
 
+			double maxLevel =0;
 			for(int n=0;n<numSets;n++) {
 			// MONTE CARLO!
 			Random rand = new Random();
@@ -117,7 +118,9 @@ public class Optimizer_Phase_One {
 					+ w_playerHPdelta + "," + w_oppHPdelta + "," + w_attackBias + "," + w_blockBias + "," + w_blastBias
 					+ "," + w_shieldBias+","+avgLevel;
 			challengeOutcomeLogWriter.println(datastr);
-			System.out.println(datastr);
+			System.out.println("Set "+n+": "+datastr);
+			if (avgLevel > maxLevel) maxLevel = avgLevel;
+			System.out.println("Max Level so far: "+maxLevel);
 			}
 		}
 

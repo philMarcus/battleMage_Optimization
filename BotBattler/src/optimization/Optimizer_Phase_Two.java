@@ -10,11 +10,11 @@ import game.Battle;
 
 public class Optimizer_Phase_Two {
 
-	private static int numPerChallengeSet = 200;
-	private static int numSets = 500000;
+	private static int numPerChallengeSet = 1000;
+	private static int numSets = 50;
 
 	public static PrintWriter challengeOutcomeLogWriter;
-	public static final String OUTCOME_LOG = "data/phase_one_NEW_challenge_outcomes.csv";
+	public static final String OUTCOME_LOG = "data/phase_two_NEW_challenge_outcomes.csv";
 	
 	//define parameters
 	static double w_alloc ;

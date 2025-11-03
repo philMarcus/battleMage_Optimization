@@ -97,16 +97,16 @@ public class Optimizer_Phase_Two {
 			// --- Generate 10 Weights in Range determined in Phase 1 ---
 						w_alloc = getRandomDouble(rand, 0, 1.000);
 						w_cost = getRandomDouble(rand, 0, 1.000);
-						w_ratioGain = getRandomDouble(rand, 0.683, 1.000);
-						w_ratioLoss = getRandomDouble(rand, 0.0, 0.694);
+						w_ratioGain = getRandomDouble(rand, 0.723, 1.000);
+						w_ratioLoss = getRandomDouble(rand, 0.0, 0.55);
 						w_playerHPdelta = getRandomDouble(rand, 0.0, 1.000);
-						w_oppHPdelta = getRandomDouble(rand, 0.520, 1.000);
+						w_oppHPdelta = getRandomDouble(rand, 0.620, 1.000);
 
 						// Note the negative minimums for the bias weights
-						w_attackBias = getRandomDouble(rand, 0.378, 1.000);
-						w_blockBias = getRandomDouble(rand, 0.119,0.915);
+						w_attackBias = getRandomDouble(rand, 0.379, 1.000);
+						w_blockBias = getRandomDouble(rand, 0.120,0.903);
 						w_blastBias = getRandomDouble(rand, -1.0, 1.000);
-						w_shieldBias = getRandomDouble(rand, -1, 0.379);
+						w_shieldBias = getRandomDouble(rand, -0.535, 0.783);
 			int totalLevels = 0;
 			for (int i = 0; i < numPerChallengeSet; i++) {
 

@@ -11,7 +11,7 @@ import game.Battle;
 public class Optimizer_Phase_Two {
 
 
-	private static int numSets = 10000;
+	private static int numSets = 20000;
 
 	public static PrintWriter challengeOutcomeLogWriter;
 	public static final String OUTCOME_LOG = "data/phase_two_outcomes.csv";
@@ -36,17 +36,20 @@ public class Optimizer_Phase_Two {
 	 * C4   10,000 0.06                 25.53                   25.47
 	 * C5   50,000 0.026                25.63                   25.60
 	 */
-	
+
+	private static double goldStandard = 25.708; //level of best confirmed bot so far
+	private static final double S3 = 0.18, S4 = 0.06, S5 = 0.026; //measured std devs for given N.
+	private static final double SIGMA = 3.8; //how many SDs off new champions to set new cutoff levels
 	//define cutoff values for funnel
 	private static final int N1 = 10, L1 = 12; //Cut 1: SE 1.8 levels
 	private static final int N2 = 100;
 	private static final double L2 = 23.5; //Cut 2: SE 0.6 levels
 	private static final int N3 = 1000;
-	private static final double L3 = 25; //Cut 3: SE 0.18 levels
+	private static double L3 = 25; //Cut 3: SE 0.18 levels
 	private static final int N4 = 10000; //Cut 4: SE 0.06 levels
-	private static final double L4 = 25.5;
+	private static double L4 = 25.5;
 	private static final int N5 = 50000;
-	private static final double L5 = 25.6; //Cut 5: SE 0.026 levels
+	private static double L5 = 25.6; //Cut 5: SE 0.026 levels
 	private static final int N_CONFIRM = 500000; //Confirmed champion: SE: 0.008 lev
 	
 
@@ -160,8 +163,21 @@ public class Optimizer_Phase_Two {
 					
 					if (i==N5 && avgLevel < L5) {c4++; break;}
 					
-					if (i==N_CONFIRM) c5++;
-					
+					if (i==N_CONFIRM) {
+						c5++;
+						//update cutoff levels if we have a new champ
+						if(avgLevel > goldStandard) {
+							
+							System.out.println("!!! NEW CHAMPION FOUND !!!");
+					        System.out.println("Old Gold Standard: " + goldStandard);
+					        System.out.println("New Gold Standard: " + avgLevel);
+					        
+							L3 = avgLevel - SIGMA*S3;
+							L4 = avgLevel - SIGMA*S4;
+							L5 = avgLevel - SIGMA*S5;
+							goldStandard = avgLevel;
+						}
+					}
 					
 										
 				}
@@ -178,9 +194,9 @@ public class Optimizer_Phase_Two {
 				System.out.println("Failed Bots: "+c0);
 				System.out.println("Cutoff 1 Passed: "+c1);
 				System.out.println("Cutoff 2 Passed: "+c2);
-				System.out.println("Cutoff 3 Passed: "+c3);
-				System.out.println("Cutoff 4 Passed: "+c4);
-				System.out.println("Cutoff 5 Passed: "+c5);
+				System.out.println("Cutoff 3 at level "+L3+" Passed: "+c3);
+				System.out.println("Cutoff 4 at level "+L4+" Passed: "+c4);
+				System.out.println("Cutoff 5 at level "+L5+" Passed: "+c5);
 			}
 		}
 

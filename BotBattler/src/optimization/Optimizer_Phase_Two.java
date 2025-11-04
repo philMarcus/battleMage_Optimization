@@ -28,13 +28,25 @@ public class Optimizer_Phase_Two {
 	static double w_blastBias;
 	static double w_shieldBias;
 	
+	/*
+	 * New "Champion" Cutoffs (Benchmark = 25.51) Determined from phase 1 refined best champion
+	 * This table shows the "Aggressive" (3-sigma) and "Safe" (4-sigma) cutoffs.
+	 * Gate N      Standard Error (SE)  3-Sigma Cutoff (L)      4-Sigma Cutoff (L)
+	 * C3   1,000  0.18                 24.97 (25.51 - 3*0.18)  24.79 (25.51 - 4*0.18)
+	 * C4   10,000 0.06                 25.33 (25.51 - 3*0.06)  25.27 (25.51 - 4*0.06)
+	 * C5   50,000 0.026                25.43 (25.51 - 3*0.026) 25.41 (25.51 - 4*0.026)
+	 */
+	
 	//define cutoff values for funnel
-	private static final int N1 = 10, L1 = 10; //Cut 1: SE 1.8 levels
-	private static final int N2 = 100, L2 = 20; //Cut 2: SE 0.6 levels
-	private static final int N3= 1000, L3 = 24; //Cut 3: SE 0.18 levels
+	private static final int N1 = 10, L1 = 12; //Cut 1: SE 1.8 levels
+	private static final int N2 = 100;
+	private static final double L2 = 23; //Cut 2: SE 0.6 levels
+	private static final int N3 = 1000;
+	private static final double L3 = 24.8; //Cut 3: SE 0.18 levels
 	private static final int N4 = 10000; //Cut 4: SE 0.06 levels
-	private static final double L4 = 24.7;
-	private static final int N5 = 50000, L5 = 25; //Cut 5: SE 0.026 levels
+	private static final double L4 = 25.3;
+	private static final int N5 = 50000;
+	private static final double L5 = 25.41; //Cut 5: SE 0.026 levels
 	private static final int N_CONFIRM = 500000; //Confirmed champion: SE: 0.008 lev
 	
 
@@ -106,20 +118,24 @@ public class Optimizer_Phase_Two {
 				Random rand = new Random();
 
 				// --- Generate 10 Weights in Range determined in Refined Phase 1 ---
+				//Determined from top 20 runs of 2,000,000
+				//All 20 beat goal of 25.1 by >1 SD.
+				//
 				// The "Ramp Up" Features:
-				w_ratioGain = getRandomDouble(rand, 0.551, 1.000);
-				w_playerHPdelta = getRandomDouble(rand, 0.574, 1.000);
-				w_blockBias = getRandomDouble(rand, 0.086, 1.0);
-				w_blastBias = getRandomDouble(rand, 0.141, 1.000);
-				// The "Ramp Down" Features:
-				w_shieldBias = getRandomDouble(rand, -1.0, 0.096);
-				w_ratioLoss = getRandomDouble(rand, 0.0, 0.562);
-				w_oppHPdelta = getRandomDouble(rand, 0.0, 0.523);
-				// The "Central Peak" features:
-				w_alloc = getRandomDouble(rand, 0.296,0.489);
-				// The "Flat/Bimodal" Features:
-				w_cost = getRandomDouble(rand, 0, 1.000);
-				w_attackBias = getRandomDouble(rand, -1.0, 1.000);
+				w_ratioGain = getRandomDouble(rand, 0.814, 1.000);
+				w_playerHPdelta = getRandomDouble(rand, 0.788, 1.000);
+				w_ratioLoss = getRandomDouble(rand, 0.370,0.613);
+				//The "2SD peak" features:
+				w_alloc = getRandomDouble(rand, 0.2, 0.461);
+				w_oppHPdelta = getRandomDouble(rand, 0.497, 0.888);
+				w_attackBias = getRandomDouble(rand, -0.364,0.601);
+				w_blockBias = getRandomDouble(rand, -0.433,0.573);
+				w_blastBias = getRandomDouble(rand, -0.096,0.599);
+				w_shieldBias = getRandomDouble(rand, -0.549, 0.083);
+				
+				// The removed Feature:
+				//w_cost = getRandomDouble(rand, 0, 1.000);
+				
 
 				int totalLevels = 0;
 				double avgLevel=0;

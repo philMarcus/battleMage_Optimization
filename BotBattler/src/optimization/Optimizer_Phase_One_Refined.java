@@ -99,7 +99,7 @@ public class Optimizer_Phase_One_Refined {
 				Random rand = new Random();
 
 				// --- Generate 10 Weights in Range determined in Phase 1 ---
-				// Classify features according to distributions of top 0.2%
+				// Classify features according to distributions of top 0.05%
 				//of 1,000,000 phase 1 runs
 				// see juypiter notebook
 				// The "Ramp Up" Features are top 75%:

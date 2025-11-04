@@ -29,24 +29,24 @@ public class Optimizer_Phase_Two {
 	static double w_shieldBias;
 	
 	/*
-	 * New "Champion" Cutoffs (Benchmark = 25.51) Determined from phase 1 refined best champion
+	 * New "Champion" Cutoffs (Benchmark = 25.708) Determined from phase 2 test run found champion
 	 * This table shows the "Aggressive" (3-sigma) and "Safe" (4-sigma) cutoffs.
 	 * Gate N      Standard Error (SE)  3-Sigma Cutoff (L)      4-Sigma Cutoff (L)
-	 * C3   1,000  0.18                 24.97 (25.51 - 3*0.18)  24.79 (25.51 - 4*0.18)
-	 * C4   10,000 0.06                 25.33 (25.51 - 3*0.06)  25.27 (25.51 - 4*0.06)
-	 * C5   50,000 0.026                25.43 (25.51 - 3*0.026) 25.41 (25.51 - 4*0.026)
+	 * C3   1,000  0.18                 25.17                   24.99
+	 * C4   10,000 0.06                 25.53                   25.47
+	 * C5   50,000 0.026                25.63                   25.60
 	 */
 	
 	//define cutoff values for funnel
 	private static final int N1 = 10, L1 = 12; //Cut 1: SE 1.8 levels
 	private static final int N2 = 100;
-	private static final double L2 = 23; //Cut 2: SE 0.6 levels
+	private static final double L2 = 23.5; //Cut 2: SE 0.6 levels
 	private static final int N3 = 1000;
-	private static final double L3 = 24.8; //Cut 3: SE 0.18 levels
+	private static final double L3 = 25; //Cut 3: SE 0.18 levels
 	private static final int N4 = 10000; //Cut 4: SE 0.06 levels
-	private static final double L4 = 25.3;
+	private static final double L4 = 25.5;
 	private static final int N5 = 50000;
-	private static final double L5 = 25.41; //Cut 5: SE 0.026 levels
+	private static final double L5 = 25.6; //Cut 5: SE 0.026 levels
 	private static final int N_CONFIRM = 500000; //Confirmed champion: SE: 0.008 lev
 	
 

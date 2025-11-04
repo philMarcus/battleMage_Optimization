@@ -8,13 +8,13 @@ import java.io.PrintWriter;
 
 import game.Battle;
 
-public class Optimizer_Phase_Two {
+public class Optimizer_Phase_Two_refined {
 
 
 	private static int numSets = 20000;
 
 	public static PrintWriter challengeOutcomeLogWriter;
-	public static final String OUTCOME_LOG = "data/phase_two_refined_outcomes.csv";
+	public static final String OUTCOME_LOG = "data/phase_two_outcomes.csv";
 
 	// define parameters
 	static double w_alloc;
@@ -120,21 +120,21 @@ public class Optimizer_Phase_Two {
 				// MONTE CARLO!
 				Random rand = new Random();
 
-				// --- Generate 10 Weights in Range determined in Refined Phase 1 ---
-				//Determined from top 26 runs of 50K phase 2 test runs
-				//All 26 are > 25.11 +/- 0.06.
+				// --- Generate 10 Weights in Range determined in Phase two runs ---
+				//Determined from top 26 runs of 50,0000
+				//All 20 beat goal of 25.1 by >1 SD.
 				//
-				// The "Robust - No shrink" Features:
+				// The "Ramp Up" Features:
 				w_ratioGain = getRandomDouble(rand, 0.814, 1.000);
 				w_playerHPdelta = getRandomDouble(rand, 0.788, 1.000);
 				w_ratioLoss = getRandomDouble(rand, 0.370,0.613);
+				//The "2SD peak" features:
+				w_alloc = getRandomDouble(rand, 0.2, 0.461);
 				w_oppHPdelta = getRandomDouble(rand, 0.497, 0.888);
-				//The "Sensitive - 2SD peak" features:
-				w_alloc = getRandomDouble(rand, 0.215, 0.339);
-				w_attackBias = getRandomDouble(rand, -0.163,0.309);
-				w_blockBias = getRandomDouble(rand, -0.250,0.257);
-				w_blastBias = getRandomDouble(rand, -0.096,0.311);
-				w_shieldBias = getRandomDouble(rand, -0.240, 0.083);
+				w_attackBias = getRandomDouble(rand, -0.364,0.601);
+				w_blockBias = getRandomDouble(rand, -0.433,0.573);
+				w_blastBias = getRandomDouble(rand, -0.096,0.599);
+				w_shieldBias = getRandomDouble(rand, -0.549, 0.083);
 				
 				// The removed Feature:
 				//w_cost = getRandomDouble(rand, 0, 1.000);

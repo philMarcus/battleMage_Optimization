@@ -14,7 +14,7 @@ public class Optimizer_Phase_Two_refined {
 	private static int numSets = 5000;
 
 	public static PrintWriter challengeOutcomeLogWriter;
-	public static final String OUTCOME_LOG = "data/phase_two_outcomes.csv";
+	public static final String OUTCOME_LOG = "data/phase_two_refined_outcomes.csv";
 
 	// define parameters
 	static double w_alloc;
@@ -120,7 +120,7 @@ public class Optimizer_Phase_Two_refined {
 				// MONTE CARLO!
 				Random rand = new Random();
 
-				// --- Generate 10 Weights in Range determined in Phase two runs ---
+				// --- Generate 10 Weights in Range determined in Phase 1 refined runs ---
 				//Determined from top 26 runs of 50,0000
 				//All 20 beat goal of 25.1 by >1 SD.
 				//

@@ -120,24 +120,25 @@ public class Optimizer_Phase_Two_refined {
 				// MONTE CARLO!
 				Random rand = new Random();
 
-				// --- Generate 10 Weights in Range determined in Phase 1 refined runs ---
-				//Determined from top 26 runs of 50,0000
-				//All 20 beat goal of 25.1 by >1 SD.
+				// --- Generate 10 Weights in Range determined in Phase 2 test ---
+				//Determined from top 26 runs of 50K phase 2 test runs
+				//All 26 are > 25.11 +/- 0.06.
 				//
-				// The "Ramp Up" Features:
+				// The "Robust - No shrink" Features:
 				w_ratioGain = getRandomDouble(rand, 0.814, 1.000);
 				w_playerHPdelta = getRandomDouble(rand, 0.788, 1.000);
 				w_ratioLoss = getRandomDouble(rand, 0.370,0.613);
-				//The "2SD peak" features:
-				w_alloc = getRandomDouble(rand, 0.2, 0.461);
 				w_oppHPdelta = getRandomDouble(rand, 0.497, 0.888);
-				w_attackBias = getRandomDouble(rand, -0.364,0.601);
-				w_blockBias = getRandomDouble(rand, -0.433,0.573);
-				w_blastBias = getRandomDouble(rand, -0.096,0.599);
-				w_shieldBias = getRandomDouble(rand, -0.549, 0.083);
+				//The "Sensitive - 2SD peak" features:
+				w_alloc = getRandomDouble(rand, 0.215, 0.339);
+				w_attackBias = getRandomDouble(rand, -0.163,0.309);
+				w_blockBias = getRandomDouble(rand, -0.250,0.257);
+				w_blastBias = getRandomDouble(rand, -0.096,0.311);
+				w_shieldBias = getRandomDouble(rand, -0.240, 0.083);
 				
 				// The removed Feature:
 				//w_cost = getRandomDouble(rand, 0, 1.000);
+
 				
 
 				int totalLevels = 0;

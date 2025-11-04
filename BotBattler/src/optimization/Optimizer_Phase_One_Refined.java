@@ -16,7 +16,7 @@ public class Optimizer_Phase_One_Refined {
 	
 	private static final int N1 = 10, L1 = 10; //Cut 1: SE 1.8 levels
 	private static final int N2 = 100, L2 = 22; //Cut 2: SE 0.6 levels
-	private static final int N_CONFIRM = 1000; //Confirmed champion: SE: 0.18 lev
+	private static final int N_CONFIRM = 1000; // SE: 0.18 level
 
 	public static PrintWriter challengeOutcomeLogWriter;
 	public static final String OUTCOME_LOG = "data/phase_one_refined_outcomes.csv";
@@ -102,20 +102,20 @@ public class Optimizer_Phase_One_Refined {
 				// Classify features according to distributions of top 0.2%
 				//of 1,000,000 phase 1 runs
 				// see juypiter notebook
-				// The "Ramp Up" Features:
+				// The "Ramp Up" Features are top 75%:
 				w_ratioGain = getRandomDouble(rand, 0.653, 1.000);
 				w_playerHPdelta = getRandomDouble(rand, 0.459, 1.000);
 				w_oppHPdelta = getRandomDouble(rand, 0.482, 1);
 				w_attackBias = getRandomDouble(rand, -0.121, 1.000);
 				w_blockBias = getRandomDouble(rand, -0.148, 1.0);
 				w_blastBias = getRandomDouble(rand, -0.096, 1.000);
-				// The "Ramp Down" Features:
+				// The "Ramp Down" Features are bottom 75%:
 				w_ratioLoss = getRandomDouble(rand, 0.0, 0.613);
 				w_shieldBias = getRandomDouble(rand, -1.0, 0.083);
 				// The "Central Peak" features:
 				//			--
 				// The "Flat/Bimodal" Features:
-				w_alloc = getRandomDouble(rand, 0, 1);
+				w_alloc = getRandomDouble(rand, 0.2, 1);  //bimodal, clipped by hand.
 				w_cost = 0; //Justifiably removed after phase 1.
 				
 				int totalLevels = 0;
@@ -136,8 +136,7 @@ public class Optimizer_Phase_One_Refined {
 					if (i==N2 && avgLevel < L2) {c1++; break;}
 									
 					if (i==N_CONFIRM) c2++;
-								
-										
+																	
 				}
 				//write the data!
 				String datastr = w_alloc + "," + w_cost + "," + w_ratioGain + "," + w_ratioLoss + "," + w_playerHPdelta

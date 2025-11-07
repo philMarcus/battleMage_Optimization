@@ -128,7 +128,7 @@ public class Adam implements Character {
    }
    // Method to provide a string representation of the object
    public String toString() {
-       return "Adam";
+       return "Student C";
    }
   
 }

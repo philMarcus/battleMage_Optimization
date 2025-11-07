@@ -195,7 +195,7 @@ public class Hien implements Character {
 	@Override
 	// This method returns XDXDC's name
 	public String toString() {
-		return "Hien XDDCC";
+		return "Student A";
 	}
 	
 	public Resource getStaminaResource() {

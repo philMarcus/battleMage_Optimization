@@ -401,7 +401,7 @@ public class John implements Character {
 	// This method returns The Goat's name
 	public String toString() 
 	{
-		return "John's Goat";
+		return "Student B";
 	}
 
 }

@@ -14,6 +14,8 @@ import game.Resource;
 import game.Threat;
 
 public class OptimizingChampion implements Character {
+	
+	String name;
 
 	// We have 10 strategic parameters that we'll optimize.
 	double w_cost;
@@ -306,10 +308,22 @@ public class OptimizingChampion implements Character {
 
 		return hp;
 	}
+	
+	public Resource getStaminaResource() {
+        return stamina;
+    }
 
 	@Override
 	public String toString() {
-		return "Optimizing Champion Phase Zero";
+		return getName();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setBattleId(String battleId) {

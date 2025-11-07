@@ -5,10 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import characters.Adam;
 import characters.BadBlocker;
 import game.Battle;
 import characters.DumbFighter;
 import characters.GoodBlocker;
+import characters.Hien;
+import characters.John;
 import characters.SadMage;
 import optimization.BattleMageChampion;
 import characters.Blaster;
@@ -29,20 +32,22 @@ public class CliffFinder {
 		// Create a FileWriter
 		FileWriter fwOutcomes;
 		try {
-			fwOutcomes = new FileWriter(outcomeFile);
+			fwOutcomes = new FileWriter(outcomeFile, true);
 
 			outcomeLogWriter = new PrintWriter(fwOutcomes);
 
 			// If the file was just created, write the header row.
-
-			outcomeLogWriter.println("Level,Win_Rate");
-			System.out.println("Created new outcome log with header.");
-
+			if (isOutcomeFileNew) {
+				outcomeLogWriter.println("Bot_Name,Level,Win_Rate");
+				System.out.println("Created new outcome log with header.");
+			}
 			for (int level = 1; level <= 60; level++) {
 				wins = 0;
+				String name = "unknown";
 				for (int i = 0; i < num; i++) {
-					BattleMageChampion player = new BattleMageChampion();
+					OptimizingChampion player = new OptimizingChampion(0.2310, 0.0000, 0.8356, 0.5778, 0.8330, 0.6438, -0.0614, -0.1009, -0.0642, -0.0861);
 					Battle b = new Battle(player, level);
+					name = player.toString();
 					if (b.doBattle(false, false)) {
 						wins++;
 						System.out.println(player.toString() + " gets win " + wins + " in game " + (i + 1) + "  "
@@ -50,7 +55,7 @@ public class CliffFinder {
 					}
 				}
 				System.out.println("Final score:" + wins + "/" + num + "  " + ((double) wins / num));
-				outcomeLogWriter.println(level + "," + ((double) wins / num));
+				outcomeLogWriter.println(name + "," + level + "," + ((double) wins / num));
 
 			}
 		} catch (IOException e) {

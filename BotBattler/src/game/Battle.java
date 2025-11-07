@@ -5,6 +5,10 @@ import java.util.Scanner;
 import actions.Action;
 import actions.MagicBlast;
 import characters.Character;
+import characters.Hien;
+import optimization.Optimizer_Phase_Three;
+import optimization.OptimizingChampion;
+
 import java.util.UUID;
 
 //This class represents a single battle between the player's class
@@ -70,6 +74,14 @@ public class Battle {
 		turnLog += currentThreat.toString();
 		turnLog += opp.toString() + "\n";
 		turnLog += player.toString() + " ";
+		
+		//Turndata will be written to file for analysis
+		String turnData = "";
+		
+		//get starting values for logging
+		int playerStaminaStart = player.getStaminaResource().getValue();	
+		int playerHPstart = player.getHitPointResource().getValue();	
+		int oppHPstart = opp.getHitPoints();
 
 		// get the player's choice of action.
 		// this is when your decision-making method actually gets called.
@@ -102,6 +114,24 @@ public class Battle {
 		if (!opp.isAlive()) {
 			playerWin = true;
 			isOver = true;
+			turnData = battleId
+				    + "," + player.toString()
+				    + "," + level
+				    + "," + turn
+				    + "," + playerHPstart 
+				    + "," + playerStaminaStart 
+				    + "," + oppHPstart 
+				    + "," + opp.getPhysicalVulnerablility() // This is the single base vulnerability
+				    + "," + MagicBlast.getUsed() 
+				    + "," + currentThreat.getQuadrantThreat(1)
+				    + "," + currentThreat.getQuadrantThreat(2)
+				    + "," + currentThreat.getQuadrantThreat(3)
+				    + "," + currentThreat.getQuadrantThreat(4)
+				    + "," + action.getName()
+				    + "," + action.getDetail()
+				    + "," + player.getHitPointResource().getValue() // This is playerHpEnd
+				    + "," + 0; // This is oppHpEnd
+			Optimizer_Phase_Three.turnLogWriter.println(turnData);
 			return turnLog += "The opponent has been defeated! Win.\n";
 		}
 
@@ -118,6 +148,29 @@ public class Battle {
 			isOver = true;
 			turnLog += player.toString() + " dies. Lose.\n";
 		}
+		
+		//write turnData to file for Phase three of Optimization Project
+		turnData = battleId
+			    + "," + player.toString()
+			    + "," + level
+			    + "," + turn
+			    + "," + playerHPstart 
+			    + "," + playerStaminaStart 
+			    + "," + oppHPstart 
+			    + "," + opp.getPhysicalVulnerablility() // This is the single base vulnerability
+			    + "," + MagicBlast.getUsed() 
+			    + "," + currentThreat.getQuadrantThreat(1)
+			    + "," + currentThreat.getQuadrantThreat(2)
+			    + "," + currentThreat.getQuadrantThreat(3)
+			    + "," + currentThreat.getQuadrantThreat(4)
+			    + "," + action.getName()
+			    + "," + action.getDetail()
+			    + "," + player.getHitPointResource().getValue() // This is playerHpEnd
+			    + "," + opp.getHitPoints(); // This is oppHpEnd
+		Optimizer_Phase_Three.turnLogWriter.println(turnData);
+		
+		
+		
 		// generate a new random threat and vulnerability
 		currentThreat = new Threat(level);
 		opp.newVulnerability();

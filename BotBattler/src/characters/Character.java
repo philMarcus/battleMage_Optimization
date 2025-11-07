@@ -47,6 +47,8 @@ public interface Character {
 	// This is the resource that will be reduced by unblocked threat
 	// When this resource runs out, your character loses.
 	public Resource getHitPointResource();
+	
+	public Resource getStaminaResource();
 
 	// This method just returns your charcter's name
 	public String toString();

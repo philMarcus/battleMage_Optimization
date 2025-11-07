@@ -81,4 +81,8 @@ public class MagicBlast implements Action {
 		return null;
 	}
 
+	public static int getUsed() {
+		return used;
+	}
+
 }

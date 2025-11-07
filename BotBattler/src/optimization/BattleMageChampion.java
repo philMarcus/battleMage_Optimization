@@ -234,10 +234,14 @@ public class BattleMageChampion implements Character {
 
 		return hp;
 	}
+	
+	public Resource getStaminaResource() {
+        return stamina;
+    }
 
 	@Override
 	public String toString() {
-		return "Mr. Marcus";
+		return "battleMageChampion";
 	}
 
 }

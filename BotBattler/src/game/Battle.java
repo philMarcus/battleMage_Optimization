@@ -87,6 +87,7 @@ public class Battle {
 		int t2 = currentThreat.getQuadrantThreat(2);
 		int t3 = currentThreat.getQuadrantThreat(3);
 		int t4 = currentThreat.getQuadrantThreat(4);
+		int totThreat = t1+t2+t3+t4;
 
 		// get the player's choice of action.
 		// this is when your decision-making method actually gets called.
@@ -132,6 +133,7 @@ public class Battle {
 				    + "," + t2
 				    + "," + t3
 				    + "," + t4
+				    + "," + totThreat
 				    + "," + action.getName()
 				    + "," + action.getDetail()
 				    + "," + player.getHitPointResource().getValue() // This is playerHpEnd
@@ -168,6 +170,7 @@ public class Battle {
 			    + "," + t2
 			    + "," + t3
 			    + "," + t4
+			    + "," + totThreat
 			    + "," + action.getName()
 			    + "," + action.getDetail()
 			    + "," + player.getHitPointResource().getValue() // This is playerHpEnd
@@ -202,7 +205,7 @@ public class Battle {
 			if (dramaticPause)
 				input.nextLine();
 		}
-		//Optimizer_Phase_Three.battleOutcomeLogWriter.println(getBattleId() + "," + isPlayerWin());
+		Optimizer_Phase_Three.battleOutcomeLogWriter.println(getBattleId() + "," + isPlayerWin());
 		return playerWin;
 	}
 

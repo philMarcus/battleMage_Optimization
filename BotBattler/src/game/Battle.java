@@ -19,8 +19,8 @@ public class Battle {
 
 	// The Opponent the player is battling
 	private Opponent opp;
-	
-	//the level of the threat/opponent
+
+	// the level of the threat/opponent
 	private int level;
 
 	// The threat, by quadrant, that the player is facing
@@ -47,8 +47,8 @@ public class Battle {
 
 	// input from the user, only used to press Enter between turns.
 	private Scanner input = new Scanner(System.in);
-	
-	//unique battle Identifier
+
+	// unique battle Identifier
 	private String battleId;
 
 	public Battle(Character p, int level) {
@@ -57,9 +57,9 @@ public class Battle {
 		opp = new Opponent(level);
 		currentThreat = new Threat(level);
 		playerHP = player.getHitPointResource();
-		this.battleId = UUID.randomUUID().toString(); //random unique id
-		
-		//player hit points count towards the 200 resources!
+		this.battleId = UUID.randomUUID().toString(); // random unique id
+
+		// player hit points count towards the 200 resources!
 		totalResources = playerHP.getMaxValue();
 
 		// A new battle will reset the Magic Blast counter.
@@ -74,28 +74,28 @@ public class Battle {
 		turnLog += currentThreat.toString();
 		turnLog += opp.toString() + "\n";
 		turnLog += player.toString() + " ";
-		
-		//Turndata will be written to file for analysis
+
+		// Turndata will be written to file for analysis
 		String turnData = "";
-		
-		//get starting values for logging
-		int playerStaminaStart = player.getStaminaResource().getValue();	
-		int playerHPstart = player.getHitPointResource().getValue();	
+
+		// get starting values for logging
+		int playerStaminaStart = player.getStaminaResource().getValue();
+		int playerHPstart = player.getHitPointResource().getValue();
 		int oppHPstart = opp.getHitPoints();
 		int mbUsed = MagicBlast.getUsed();
 		int t1 = currentThreat.getQuadrantThreat(1);
 		int t2 = currentThreat.getQuadrantThreat(2);
 		int t3 = currentThreat.getQuadrantThreat(3);
 		int t4 = currentThreat.getQuadrantThreat(4);
-		int totThreat = t1+t2+t3+t4;
+		int totThreat = t1 + t2 + t3 + t4;
 
 		// get the player's choice of action.
 		// this is when your decision-making method actually gets called.
-		//we pass clones of the Threat and Opponent objects, so the player's class can't
+		// we pass clones of the Threat and Opponent objects, so the player's class
+		// can't
 		// directly change the threat or remove hitpoints from the opponent
 		Action action = player.takeTurn(new Threat(currentThreat), new Opponent(opp));
 
-		
 		// before we pay the action's cost and resolve the action, cheater check:
 		// if we haven't spent this resource before, (and it's not the player's HP),
 		// add it's maxValue to total resources. This is so we can check that the player
@@ -120,25 +120,18 @@ public class Battle {
 		if (!opp.isAlive()) {
 			playerWin = true;
 			isOver = true;
-			turnData = battleId
-				    + "," + player.toString()
-				    + "," + level
-				    + "," + turn
-				    + "," + playerHPstart 
-				    + "," + playerStaminaStart 
-				    + "," + oppHPstart 
-				    + "," + opp.getPhysicalVulnerablility() // This is the single base vulnerability
-				    + "," + mbUsed
-				    + "," + t1
-				    + "," + t2
-				    + "," + t3
-				    + "," + t4
-				    + "," + totThreat
-				    + "," + action.getName()
-				    + "," + action.getDetail()
-				    + "," + player.getHitPointResource().getValue() // This is playerHpEnd
-				    + "," + 0; // This is oppHpEnd
-			Optimizer_Phase_Three.turnLogWriter.println(turnData);
+			turnData = battleId + "," + player.toString() + "," + level + "," + turn + "," + playerHPstart + ","
+					+ playerStaminaStart + "," + oppHPstart + "," + opp.getPhysicalVulnerablility() // This is the
+																									// single base
+																									// vulnerability
+					+ "," + mbUsed + "," + t1 + "," + t2 + "," + t3 + "," + t4 + "," + totThreat + ","
+					+ action.getName() + "," + action.getDetail() + "," + player.getHitPointResource().getValue() // This
+																													// is
+																													// playerHpEnd
+					+ "," + 0; // This is oppHpEnd
+			if (Optimizer_Phase_Three.turnLogWriter != null) {
+				Optimizer_Phase_Three.turnLogWriter.println(turnData);
+			}
 			return turnLog += "The opponent has been defeated! Win.\n";
 		}
 
@@ -155,30 +148,18 @@ public class Battle {
 			isOver = true;
 			turnLog += player.toString() + " dies. Lose.\n";
 		}
-		
-		//write turnData to file for Phase three of Optimization Project
-		turnData = battleId
-			    + "," + player.toString()
-			    + "," + level
-			    + "," + turn
-			    + "," + playerHPstart 
-			    + "," + playerStaminaStart 
-			    + "," + oppHPstart 
-			    + "," + opp.getPhysicalVulnerablility() // This is the single base vulnerability
-			    + "," + mbUsed
-			    + "," + t1
-			    + "," + t2
-			    + "," + t3
-			    + "," + t4
-			    + "," + totThreat
-			    + "," + action.getName()
-			    + "," + action.getDetail()
-			    + "," + player.getHitPointResource().getValue() // This is playerHpEnd
-			    + "," + opp.getHitPoints(); // This is oppHpEnd
-		Optimizer_Phase_Three.turnLogWriter.println(turnData);
-		
-		
-		
+
+		// write turnData to file for Phase three of Optimization Project
+		turnData = battleId + "," + player.toString() + "," + level + "," + turn + "," + playerHPstart + ","
+				+ playerStaminaStart + "," + oppHPstart + "," + opp.getPhysicalVulnerablility() // This is the single
+																								// base vulnerability
+				+ "," + mbUsed + "," + t1 + "," + t2 + "," + t3 + "," + t4 + "," + totThreat + "," + action.getName()
+				+ "," + action.getDetail() + "," + player.getHitPointResource().getValue() // This is playerHpEnd
+				+ "," + opp.getHitPoints(); // This is oppHpEnd
+		if (Optimizer_Phase_Three.turnLogWriter != null) {
+			Optimizer_Phase_Three.turnLogWriter.println(turnData);
+		}
+
 		// generate a new random threat and vulnerability
 		currentThreat = new Threat(level);
 		opp.newVulnerability();
@@ -195,17 +176,21 @@ public class Battle {
 		while (!isOver) {
 			// increase turn count
 			turn++;
-			
+
 			// play the turn. store the log in string s.
 			String s = playTurn();
-			
-			//print and wait for user to hit enter, if the methods parameters are "true"
+
+			// print and wait for user to hit enter, if the methods parameters are "true"
 			if (print)
 				System.out.println(s);
 			if (dramaticPause)
 				input.nextLine();
 		}
-		Optimizer_Phase_Three.battleOutcomeLogWriter.println(getBattleId() + "," + isPlayerWin());
+		// write battle outcome data for optimization phase three
+		if (Optimizer_Phase_Three.battleOutcomeLogWriter != null) {
+			Optimizer_Phase_Three.battleOutcomeLogWriter.println(getBattleId() + "," + isPlayerWin());
+		}
+
 		return playerWin;
 	}
 
@@ -232,7 +217,5 @@ public class Battle {
 	public String getBattleId() {
 		return battleId;
 	}
-
-
 
 }

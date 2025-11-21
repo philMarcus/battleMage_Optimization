@@ -241,7 +241,7 @@ public class BattleMageChampion implements Character {
 
 	@Override
 	public String toString() {
-		return "battleMageChampion";
+		return "Pre-optimization Champ";
 	}
 
 }

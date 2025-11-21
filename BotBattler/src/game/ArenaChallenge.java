@@ -1,11 +1,17 @@
 package game;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import characters.Adam;
 import characters.BadBlocker;
 import characters.DumbFighter;
 import characters.GoodBlocker;
+import characters.John;
 import characters.SadMage;
 import optimization.BattleMageChampion;
 import optimization.OptimizingChampion;
@@ -13,7 +19,12 @@ import characters.Blaster;
 
 public class ArenaChallenge {
 
-	private static int num = 100000;
+	private static int num = 10000;
+
+	public static PrintWriter finalLevelWriter;
+
+	// filenames for the data logs
+	public static final String CHALLENGE_LOG = "data/noise_calibration.csv";
 
 	// runs battles with increasing opponent level until player dies
 	// returns the level on which the player died
@@ -21,8 +32,8 @@ public class ArenaChallenge {
 		int level = 1;
 		boolean isOver = false;
 		while (!isOver) {
-			OptimizingChampion player = new OptimizingChampion(0.25,0,1,1,0,0,0,0,0,0);
-			
+			BattleMageChampion player = new BattleMageChampion();
+
 			Battle b = new Battle(player, level);
 			if (b.doBattle(false, false))
 				level++;
@@ -33,18 +44,50 @@ public class ArenaChallenge {
 	}
 
 	public static void main(String[] args) {
-		int totalLevels = 0;
-		ArrayList<Integer> levelsReached = new ArrayList<Integer>();
 
-		for (int i = 0; i < num; i++) {
-			int lev = runChallenge();
-			totalLevels += lev;
-			System.out.println("Died on level " + lev + "\n");
-			levelsReached.add(lev);
+		try {
+			// --- Setup for Turn/Action Log ---
+			File actionFile = new File(CHALLENGE_LOG);
+			boolean isActionFileNew = !actionFile.exists(); // Check if file is new
 
+			// Create a FileWriter in "append" mode (that's what 'true' does)
+			FileWriter fwActions = new FileWriter(actionFile, true);
+			finalLevelWriter = new PrintWriter(fwActions);
+
+			// If the file was just created, write the header row.
+			if (isActionFileNew) {
+				finalLevelWriter.println("final_level");
+				System.out.println("Created new action log with header.");
+			}
+
+			int totalLevels = 0;
+			ArrayList<Integer> levelsReached = new ArrayList<Integer>();
+
+			for (int i = 0; i < num; i++) {
+				int lev = runChallenge();
+				totalLevels += lev;
+				System.out.println("Died on level " + lev + "\n");
+				levelsReached.add(lev);
+				finalLevelWriter.println(lev);
+
+			}
+			System.out.println("Average Level: " + (double) totalLevels / num + " Standard Deviation: "
+					+ calculateStandardDeviation(levelsReached));
+			
+
+		} catch (IOException e) {
+			System.err.println("Error: Could not initialize log files.");
+			e.printStackTrace();
+		} finally {
+			// Close writers ---
+			// This ensures all buffered data is written to the disk.
+
+			if (finalLevelWriter != null) {
+				finalLevelWriter.close();
+			}
+
+			System.out.println("Logging complete. Writers closed.");
 		}
-		System.out.println("Average Level: " + (double) totalLevels / num +
-				" Standard Deviation: "+ calculateStandardDeviation(levelsReached));
 	}
 
 	/**

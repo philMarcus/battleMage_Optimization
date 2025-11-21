@@ -7,15 +7,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import characters.Adam;
-import characters.BadBlocker;
-import characters.DumbFighter;
-import characters.GoodBlocker;
-import characters.John;
-import characters.SadMage;
-import optimization.BattleMageChampion;
-import optimization.OptimizingChampion;
-import characters.Blaster;
+import characters.BattleMageChampion;
+import characters.OptimizingChampion;
+
+
 
 public class ArenaChallenge {
 

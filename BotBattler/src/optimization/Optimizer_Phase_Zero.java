@@ -5,8 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import characters.OptimizingChampion;
 import game.Battle;
 
+
+//This class runs a series of battles for a representative bot and logs detailed data so that we can find the range 
+//of each feature and calculate a scaling factor. This ensures each featuregets a simialr amount of
+//variation during the optimization process
 public class Optimizer_Phase_Zero {
 
 	private static int num = 1000;

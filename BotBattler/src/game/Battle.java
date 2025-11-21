@@ -5,9 +5,8 @@ import java.util.Scanner;
 import actions.Action;
 import actions.MagicBlast;
 import characters.Character;
-import characters.Hien;
+import characters.OptimizingChampion;
 import optimization.Optimizer_Phase_Three;
-import optimization.OptimizingChampion;
 
 import java.util.UUID;
 

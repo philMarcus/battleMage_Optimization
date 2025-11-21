@@ -2,6 +2,9 @@ package optimization;
 
 import java.io.File;
 import java.util.Random;
+
+import characters.OptimizingChampion;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;

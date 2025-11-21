@@ -6,10 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import characters.Adam;
+import characters.BattleMageChampion;
 import characters.Character;
-import characters.Hien;
-import characters.John;
+import characters.OptimizingChampion;
 import game.Battle;
 
 public class Optimizer_Phase_Three {
@@ -32,9 +31,7 @@ public class Optimizer_Phase_Three {
 			
 
 			new Battle(new BattleMageChampion(), level).doBattle(false, false);
-			new Battle(new Hien(), level).doBattle(false, false);
-			new Battle(new Adam(), level).doBattle(false, false);
-			new Battle(new John(), level).doBattle(false, false);
+
 			
 			
 			

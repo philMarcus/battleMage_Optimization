@@ -1,11 +1,9 @@
 package game;
 
-import characters.BadBlocker;
-import characters.DumbFighter;
-import characters.GoodBlocker;
-import characters.SadMage;
-import optimization.BattleMageChampion;
-import characters.Blaster;
+
+import characters.BattleMageChampion;
+
+
 
 public class ArenaTester {
 	private static int wins;

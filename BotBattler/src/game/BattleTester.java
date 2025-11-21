@@ -1,10 +1,10 @@
 package game;
 
-import characters.DumbFighter;
-import characters.SadMage;
-import optimization.BattleMageChampion;
-//import characters.BattleMageChampion;
-import characters.BadBlocker;
+
+
+
+
+import characters.BattleMageChampion;
 
 //The game of battleMage is played by writing a Java class representing a Player Character
 //that can analyze an incoming threat and make a decision about what action to take.

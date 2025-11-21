@@ -1,4 +1,4 @@
-package optimization;
+package characters;
 
 import java.util.ArrayList;
 
@@ -8,10 +8,12 @@ import actions.Block;
 import actions.Direction;
 import actions.MagicBlast;
 import actions.MagicShield;
-import characters.Character;
 import game.Opponent;
 import game.Resource;
 import game.Threat;
+
+//This bot calculates a heuristic score for each action based on 10 tunable parameters.
+//It selects the action with the highest score.
 
 public class OptimizingChampion implements Character {
 	
@@ -266,6 +268,7 @@ public class OptimizingChampion implements Character {
 		}
 		blockableDmg = ts[maxIndex];
 		int maxQ = maxIndex + 1;
+		//determine direction that blocks the most damage
 		switch (maxQ) {
 		case 1:
 			if (q2 > q4) {

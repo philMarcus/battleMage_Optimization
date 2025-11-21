@@ -1,9 +1,9 @@
-package optimization;
+package characters;
 
 import actions.Action;
 
 //this class stores an action, along with values to calculate it's
-//delta-ratio
+//delta-ratio. It has methods to calculate each action's heuristic score
 public class AnalyzedAction {
 
 	Action a;
@@ -31,11 +31,11 @@ public class AnalyzedAction {
 
 	int getScore() {
 		// equivalent to the change in ratio of your to opp's HP as a result
-		// of this action. Want to maximize.
+		// of this action. Want to maximize. Used by the pre-optimization battleMage Champion
 		return pf * oi - pi * of;
 	}
 
-	// calculate heuristic score with parametric weights
+	// calculate heuristic score with parametric weights. Used by Optimizing Champion.
 	double getScore(double w_cost, double w_ratioGain,
 			double w_ratioLoss, double w_playerHPdelta, double w_oppHPdelta,
 			double w_attackBias, double w_blockBias, double w_blastBias,
@@ -57,13 +57,13 @@ public class AnalyzedAction {
 
 		// 3. Calculate Score
 		double score = (w_playerHPdelta * sc_playerHPdelta)
-				- (w_oppHPdelta * sc_oppHPdelta) // a negative delta should
-																								// increase score
+				- (w_oppHPdelta * sc_oppHPdelta) // a negative delta should increase score
+											
 				+ (w_ratioGain * sc_ratioGain)
 				- (w_ratioLoss * sc_ratioLoss)
-				- (w_cost * sc_cost); // cost is a penalty
-		// add the correct action bias to the score // so subtract
+				- (w_cost * sc_cost); // cost is a penalty so subtract
 		
+		// add the correct action bias to the score // 	
 		switch (a.getName()) {
 		case "Block":
 			score += w_blockBias;

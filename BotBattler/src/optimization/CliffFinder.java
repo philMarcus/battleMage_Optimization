@@ -5,16 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import characters.Adam;
-import characters.BadBlocker;
+
+
+import characters.BattleMageChampion;
 import game.Battle;
-import characters.DumbFighter;
-import characters.GoodBlocker;
-import characters.Hien;
-import characters.John;
-import characters.SadMage;
-import optimization.BattleMageChampion;
-import characters.Blaster;
+import characters.OptimizingChampion;
+
+
 
 public class CliffFinder {
 	private static int wins;

@@ -1,4 +1,4 @@
-package optimization;
+package characters;
 
 import java.util.ArrayList;
 
@@ -8,11 +8,12 @@ import actions.Block;
 import actions.Direction;
 import actions.MagicBlast;
 import actions.MagicShield;
-import characters.Character;
 import game.Opponent;
 import game.Resource;
 import game.Threat;
 
+//This bot will analyze each possible action and choose the one that maximizes 
+//the difference between the opponent's fractional loss of hit points and the player's.
 public class BattleMageChampion implements Character {
 
 	// We plan to use HP for all actions except blocks.
@@ -49,9 +50,12 @@ public class BattleMageChampion implements Character {
 		int myHP = hp.getValue();
 		int oppHP = oppInfo.getHitPoints(); // opponent hp
 
+		//calculate attack damage per hit
 		int dmgPerHit = 10 + oppInfo.getPhysicalVulnerablility();
+		//calculate magic blast damage
 		int dmgPerBlast = (int) Math.ceil(oppHP / 3.0) + oppInfo.getMagicalVulnerablility();
 
+		//create a list of analyzed actions
 		actions = new ArrayList<AnalyzedAction>();
 		// add block analysis
 		if (canBlock(stamina, 0)) {
@@ -192,6 +196,7 @@ public class BattleMageChampion implements Character {
 		}
 		blockableDmg = ts[maxIndex];
 		int maxQ = maxIndex + 1;
+		//determine direction that blocks most damage
 		switch (maxQ) {
 		case 1:
 			if (q2 > q4) {

@@ -2,7 +2,7 @@
 
 This repository explores decision-making in a programmable combat simulation (“BattleMage”) that I originally designed as a teaching system for AP Computer Science.
 
-The system is **not a human-playable game**. There is no UI and no interactive play. Instead, agents are implemented as Java classes that choose actions based on the current opponent and threat state. Performance is evaluated by running many simulated battles and analyzing the resulting data.
+The system is **not a human-playable game**. There is no UI and no interactive play. Instead, agents are implemented as Java classes that choose actions based on the current opponent and threat state. Performance is evaluated by running many simulated battles and analyzing the resulting outcomes.
 
 What began as a pedagogical environment became a useful testbed for asking deeper questions about **variance, strategy evaluation, and how conclusions change as more data is considered**.
 
@@ -39,11 +39,15 @@ Related questions include:
 
 ## Repository Structure
 ```
+01_Optimizing_battleMage.ipynb  # Analysis notebook
+images/                         # Figures used in the README
+data/                           # Reduced datasets for reproduction
 src/
-├── actions/        # Available actions and mechanics
-├── characters/     # Decision-making agents ("champions")
-├── game/           # Core simulation logic
-└── optimization/   # Multi-phase optimization drivers
+├── actions/                    # Available actions and mechanics
+├── characters/                 # Decision-making agents ("champions")
+├── game/                       # Core simulation logic
+└── optimization/               # Multi-phase optimization drivers
+
 ```
 
 - The **Java code** defines the system and generates data.
@@ -53,9 +57,9 @@ src/
 
 ## How This Project Is Intended to Be Used
 
-### 1. Run the Analysis Notebook (Recommended)
+### 1. Explore the Analysis Notebook (Recommended)
 
-The simplest way to engage with the project is to run:
+The simplest way to engage with the project is to view:
 ```
 01_Optimizing_battleMage.ipynb
 ```
@@ -65,8 +69,10 @@ The notebook:
 - Loads previously generated simulation results
 - Walks through the analysis in phases
 - Explains what each phase is testing and why
-
+  
+The notebook is designed to be readable without execution; running it is optional.  
 **No Java code needs to be run for this path.**
+
 
 ---
 
@@ -103,7 +109,7 @@ This plot establishes the central challenge: outcomes are highly variable, and g
 ![Optimization trajectory narrowing uncertainty](images/optimization_trajectory.png)
 
 **Caption:**  
-*Average performance of the best-performing strategy across optimization phases. Error bars reflect uncertainty. Later phases reduce variance more than they increase mean performance, indicating increased confidence rather than simple overfitting.*
+*Average performance of the best-performing strategy across optimization phases. Error bars reflect 95% confidence intervals. Later phases reduce variance more than they increase mean performance, indicating increased confidence rather than simple overfitting.*
 
 This plot shows how the optimization process evolves: not by chasing ever-higher scores, but by narrowing uncertainty around consistent performance.
 
@@ -129,7 +135,43 @@ The BattleMage system was originally built for instruction, which led to:
 
 Those same choices make it possible to treat the simulation as a data-generating process and analyze it independently.
 
-This project reflects how I approach systems: start simple, test assumptions, and refine only when the data justifies it.
+This project reflects how I approach systems: start simple, test assumptions, and refine only when the data justifies further complexity.
+
+---
+
+## Reproducibility
+
+This repository is designed to support multiple levels of engagement, depending on how deeply you want to interact with the project.
+
+The full dataset was generated through a multi-phase, sequential optimization process. Each phase refines the search space based on the outcomes of the previous phase. Regenerating the full dataset requires running these phases in order and is intentionally **not** part of the standard reproduction workflow.
+
+Instead, reproducibility focuses on transparency and accessibility of the analysis itself.
+
+### Option 1: Read-only (recommended)
+
+The primary way to explore this project is to read the Jupyter notebook using the precomputed results.
+
+- All figures shown in the notebook and README were generated from the full dataset.
+- No code execution is required to understand the methodology, analysis, or conclusions.
+- This is the fastest way to evaluate the project.
+
+### Option 2: Run the analysis on a sample dataset
+
+A reduced sample of the data is provided in the `data/` directory using the same filenames as the full datasets
+
+- The notebook can be executed end-to-end using this sample data.
+- All plots and analysis steps will run, with reduced statistical power.
+- This option is intended to demonstrate correctness of the analysis structure rather than reproduce exact numerical results.
+
+### Option 3: Run the analysis on the full dataset
+
+The complete datasets used in the analysis are available separately. (see links below)
+
+- These datasets can be downloaded and placed in the `data/` directory.
+- The notebook will reproduce the published figures when run on the full data.
+- Regenerating the datasets themselves is outside the scope of this repository.
+
+This tiered approach reflects the computational cost and stateful nature of the optimization process while preserving reproducibility of the analysis. The Java optimization drivers are included for transparency and inspection; running them is not required to understand or reproduce the analysis.
 
 ---
 

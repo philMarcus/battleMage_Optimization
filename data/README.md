@@ -19,6 +19,7 @@ After extraction, place all CSV files directly into this `data/` directory.
 Expected structure:
 
 ```
+images/
 data/
 ├── phase_zero_actions.csv
 ├── phase_zero_outcomes.csv

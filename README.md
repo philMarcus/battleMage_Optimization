@@ -1,193 +1,119 @@
-# BattleMage Optimization
+# battleMage Optimization
 
-This repository explores decision-making in a programmable combat simulation (“BattleMage”) that I originally designed as a teaching system for AP Computer Science.
+This project explores how to evaluate and compare decision strategies in a stochastic environment, where outcomes are noisy and strong strategies are rare.
 
-The system is **not a human-playable game**. There is no UI and no interactive play. Instead, agents are implemented as Java classes that choose actions based on the current opponent and threat state. Performance is evaluated by running many simulated battles and analyzing the resulting outcomes.
+The setting is *battleMage*, a programmable combat simulation I originally built as a teaching system for AP Computer Science. What began as a pedagogical environment evolved into a practical optimization problem: given a fully specified stochastic system, how should decision parameters be tuned to achieve the strongest possible performance, and how confident can we be in that result?
 
-What began as a pedagogical environment became a useful testbed for asking deeper questions about **variance, strategy evaluation, and how conclusions change as more data is considered**.
-
-**Most readers should start with the Python analysis notebook; running the Java code is optional.**
+The core of the project is a large, multi-phase simulation whose results are analyzed in a single Jupyter notebook. Most readers should start there.
 
 ---
 
-## What This Project Is (and Is Not)
+## The Question
 
-**This project is:**
-- A programmable decision environment
-- A simulation that produces data via repeated trials
-- An exploration of how to reason about performance under uncertainty
+Given a fixed ruleset and a fully specified game state:
 
-**This project is not:**
-- A game meant to be played by a human
-- An interactive application
-- A trained machine learning model
+> **Which decision strategies actually perform well when evaluated across many stochastic trials—and how confident can we be in that evaluation?**
 
-All “players” act through code.
+This turns out to be a harder question than it first appears. Single runs are misleading, averages stabilize slowly, and genuinely strong strategies occupy a small and structured region of the search space.
+
+The notebook walks through how these issues show up in practice and how the analysis evolves in response.
 
 ---
 
-## Core Question
+## What the Notebook Shows
 
-> Given this ruleset, which decision strategies tend to perform best when evaluated over many simulated battles?
+Rather than presenting a single “best” strategy, the notebook focuses on how evidence accumulates as the optimization progresses across phases.
 
-Related questions include:
-- How noisy are observed outcomes?
-- How rare are genuinely strong strategies?
-- How does confidence change as more data is collected?
+A central visual summary is a 2×2 grid of outcome distributions—one for each optimization phase. Read left to right, top to bottom, these plots show how the search evolves from broad exploration to focused exploitation, and how the shape of the outcome distribution changes as more information is gathered.
 
----
+![Outcome distributions across optimization phases](images/battleMage_phase_distributions_2x2.png)
 
-## Repository Structure
-```
-01_Optimizing_battleMage.ipynb  # Analysis notebook
-images/                         # Figures used in the README
-data/                           # Reduced datasets for reproduction
-src/
-├── actions/                    # Available actions and mechanics
-├── characters/                 # Decision-making agents ("champions")
-├── game/                       # Core simulation logic
-└── optimization/               # Multi-phase optimization drivers
+**Outcome distributions across optimization phases (y-axis capped at 8%).**  
 
-```
+Early phases are wide, noisy, and dominated by poor-performing configurations. Most parameter sets fail badly, and genuinely strong strategies are buried deep in the tail. As the search space is refined, the distribution shifts and reshapes: weak regions are pruned away, structure emerges, and high-performing configurations become more common and more tightly clustered.
 
-- The **Java code** defines the system and generates data.
-- The **Python notebook** analyzes that data phase by phase.
+What matters most is not just the movement of the right-hand tail, but the increasing *stability* of that tail. Later phases do not dramatically raise the maximum observed score; instead, they dramatically reduce uncertainty. Confidence intervals shrink, estimates stabilize, and performance differences become statistically meaningful rather than anecdotal.
+
+![Optimization trajectory across phases](images/optimization_trajectory.png)
+
+Taken together, these phase-by-phase distributions show why optimization in stochastic systems cannot be evaluated by single runs or small samples. Progress is best understood as a gradual tightening of evidence around a narrow region of consistently strong strategies, rather than a sudden discovery of a lone outlier.
+
+
 
 ---
 
-## How This Project Is Intended to Be Used
+## How the System Works (Briefly)
 
-### 1. Explore the Analysis Notebook (Recommended)
+battleMage is **not** a human-playable game. There is no UI and no interactive play.
 
-The simplest way to engage with the project is to view:
+Instead:
+- Decision strategies are implemented as Java classes (referred to here as “bots”)
+- Each bot chooses an action based on the current game state
+- Performance is evaluated by running many simulated battles and aggregating outcomes
+
+The Java code generates data.  
+The Python notebook analyzes it.
+
+### About Learning
+
+A bot’s decision policy is fixed during a battle; learning occurs across repeated simulations rather than within a single episode.
+
+Each bot has access to the complete game state at every turn, including resources, opponent status, and current threat levels. Decisions therefore do not depend on hidden information that would need to be inferred mid-battle.
+
+This design isolates questions of **evaluation under stochastic outcomes**, rather than online adaptation.
+
+---
+
+## How to Engage With the Project
+
+### Recommended: Read the Notebook
+
+Start with:
 ```
 01_Optimizing_battleMage.ipynb
 ```
 
-
 The notebook:
-- Loads previously generated simulation results
-- Walks through the analysis in phases
-- Explains what each phase is testing and why
-  
-The notebook is designed to be readable without execution; running it is optional.  
-**No Java code needs to be run for this path.**
+- Loads precomputed simulation results
+- Walks through the analysis phase by phase
+- Explains why each analytical choice is made
 
+It is designed to be readable without running any code.
 
----
+### Optional: Inspect the Simulation Code
 
-### 2. Inspect or Extend the Simulation (Optional)
-
-Readers interested in system design can inspect the Java source to see:
+Readers interested in system design can explore the Java source to see:
 - How decisions are encoded
-- How threats and resources evolve
+- How game state evolves
 - How outcomes are scored
 
-Advanced users can write new character classes, regenerate data, and reuse the notebook for analysis.
+Running the full optimization pipeline is computationally expensive and not required to understand the analysis.
 
 ---
 
-## Representative Results
+## Data and Reproducibility
 
-To keep the project approachable, the README highlights **three plots** that capture the main ideas without reproducing the entire notebook.
+All simulation data is precomputed and released as a static dataset via GitHub Releases.
 
----
+The notebook does not generate simulation data; it only analyzes the released results. Instructions for obtaining the dataset are provided in `data/README.md`.
 
-### 1. Phase 1: Outcome Distribution Across the Search Space
-
-![Phase 1 distribution of average final level](images/phase1_distribution.png)
-
-**Caption:**  
-*Distribution of average final level across all parameter sets explored in Phase 1. Most configurations perform poorly; high-performing outcomes lie in a narrow tail, motivating refinement rather than single-run evaluation.*
-
-This plot establishes the central challenge: outcomes are highly variable, and genuinely strong strategies are rare.
+This approach reflects the stateful, multi-phase nature of the optimization process while keeping the analysis itself transparent and reproducible.
 
 ---
 
-### 2. Optimization Trajectory Across Phases
+## Scope and Limitations
 
-![Optimization trajectory narrowing uncertainty](images/optimization_trajectory.png)
+- Results are specific to the chosen ruleset and opponent model  
+- Optimization targets expected (average) performance, not worst-case guarantees  
+- Strategy space is defined by a fixed parameterization  
+- No learning or adaptation occurs within a single battle  
 
-**Caption:**  
-*Average performance of the best-performing strategy across optimization phases. Error bars reflect 95% confidence intervals. Later phases reduce variance more than they increase mean performance, indicating increased confidence rather than simple overfitting.*
-
-This plot shows how the optimization process evolves: not by chasing ever-higher scores, but by narrowing uncertainty around consistent performance.
-
----
-
-### 3. Phase 2 Refined: What the Optimizer Learns
-
-![Phase 2 refined parameter distributions](images/phase2_refined_parameters.png)
-
-**Caption:**  
-*Parameter distributions for all runs compared to the top 0.010% of performers after Phase 2 refinement. High-performing strategies occupy structured subregions of the original search space.*
-
-Rather than producing a single “best” configuration, the analysis reveals which parameter ranges consistently support strong performance.
-
----
-
-## Why This Structure Works
-
-The BattleMage system was originally built for instruction, which led to:
-- Explicit state representation
-- Modular, readable code
-- Clear separation between mechanics and analysis
-
-Those same choices make it possible to treat the simulation as a data-generating process and analyze it independently.
-
-This project reflects how I approach systems: start simple, test assumptions, and refine only when the data justifies further complexity.
-
----
-
-## Reproducibility
-
-This repository is designed to support multiple levels of engagement, depending on how deeply you want to interact with the project.
-
-The full dataset was generated through a multi-phase, sequential optimization process. Each phase refines the search space based on the outcomes of the previous phase. Regenerating the full dataset requires running these phases in order and is intentionally **not** part of the standard reproduction workflow.
-
-Instead, reproducibility focuses on transparency and accessibility of the analysis itself.
-
-### Option 1: Read-only (recommended)
-
-The primary way to explore this project is to read the Jupyter notebook using the precomputed results.
-
-- All figures shown in the notebook and README were generated from the full dataset.
-- No code execution is required to understand the methodology, analysis, or conclusions.
-- This is the fastest way to evaluate the project.
-
-### Option 2: Run the analysis on a sample dataset
-
-A reduced sample of the data is provided in the `data/` directory using the same filenames as the full datasets
-
-- The notebook can be executed end-to-end using this sample data.
-- All plots and analysis steps will run, with reduced statistical power.
-- This option is intended to demonstrate correctness of the analysis structure rather than reproduce exact numerical results.
-
-### Option 3: Run the analysis on the full dataset
-
-The complete datasets used in the analysis are available separately. (see links below)
-
-- These datasets can be downloaded and placed in the `data/` directory.
-- The notebook will reproduce the published figures when run on the full data.
-- Regenerating the datasets themselves is outside the scope of this repository.
-
-This tiered approach reflects the computational cost and stateful nature of the optimization process while preserving reproducibility of the analysis. The Java optimization drivers are included for transparency and inspection; running them is not required to understand or reproduce the analysis.
-
----
-
-## Limitations
-
-- Results are specific to the chosen opponent model and ruleset  
-- Optimization focuses on average performance, not worst-case guarantees  
-- The search explores a predefined parameterization of strategies  
-- No attempt is made to learn or adapt during a battle  
-
-These limitations are intentional: the goal is to understand **evaluation and uncertainty**, not to build a universally optimal agent.
+These constraints are intentional. They make it possible to evaluate strategies using high-confidence statistical estimates rather than single-run outcomes, and to meaningfully compare competing configurations.
 
 ---
 
 ## Closing Note
 
-Although the setting is a combat simulation, the underlying questions—about noise, rare outcomes, and confidence under repeated trials—are the same ones that appear in many applied data problems.
+Although the setting is a combat simulation, the underlying problem is a familiar one: optimizing decisions in the presence of stochastic noise.
 
-This repository documents how my analysis evolved as those questions were tested against data.
+This project applies large-scale simulation and progressively tighter evaluation to show that, for systems with known dynamics and full state observability, careful parameter tuning can converge on a robust, high-confidence solution—provided uncertainty is treated as a first-class concern.

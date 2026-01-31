@@ -95,7 +95,7 @@ Running the full optimization pipeline is computationally expensive and not requ
 
 All simulation data is precomputed and released as a static dataset via GitHub Releases.
 
-The notebook does not generate simulation data; it only analyzes the released results. Instructions for obtaining the dataset are provided in `data/README.md`.
+The notebook does not generate simulation data; it only analyzes the released results. Instructions for obtaining the dataset are provided in the [***data folder***](/data/README.md).
 
 This approach reflects the stateful, multi-phase nature of the optimization process while keeping the analysis itself transparent and reproducible.
 

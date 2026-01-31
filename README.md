@@ -4,7 +4,7 @@ This project explores how to evaluate and compare decision strategies in a stoch
 
 The setting is *battleMage*, a programmable combat simulation I originally built as a teaching system for AP Computer Science. What began as a pedagogical environment evolved into a practical optimization problem: given a fully specified stochastic system, how should decision parameters be tuned to achieve the strongest possible performance, and how confident can we be in that result?
 
-The core of the project is a large, multi-phase simulation whose results are analyzed in a single Jupyter notebook. Most readers should start there.
+The core of the project is a large, multi-phase simulation whose results are analyzed in a single [***Jupyter notebook***](battleMage_Optimization/01_Optimizing_battleMage.ipynb). Most readers should start there.
 
 ---
 

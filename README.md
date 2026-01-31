@@ -69,9 +69,9 @@ This design isolates questions of **evaluation under stochastic outcomes**, rath
 ### Recommended: Read the Notebook
 
 Start with:
-```
-01_Optimizing_battleMage.ipynb
-```
+
+[***01_Optimizing_battleMage.ipynb***](battleMage_Optimization/01_Optimizing_battleMage.ipynb)
+
 
 The notebook:
 - Loads precomputed simulation results
@@ -82,7 +82,7 @@ It is designed to be readable without running any code.
 
 ### Optional: Inspect the Simulation Code
 
-Readers interested in system design can explore the Java source to see:
+Readers interested in system design can explore the [***Java source***](/BotBattler/src) to see:
 - How decisions are encoded
 - How game state evolves
 - How outcomes are scored

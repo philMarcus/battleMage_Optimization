@@ -19,6 +19,7 @@ After extraction, place all CSV files directly into this `data/` directory.
 Expected structure:
 
 ```
+01_Optimizing_battleMage.ipynb
 images/
 data/
 ├── phase_zero_actions.csv

@@ -24,7 +24,7 @@ The notebook walks through how these issues show up in practice and how the anal
 
 Rather than presenting a single “best” strategy, the notebook focuses on how evidence accumulates as the optimization progresses across phases.
 
-A central visual summary is a 2×2 grid of outcome distributions—one for each optimization phase. Read left to right, top to bottom, these plots show how the search evolves from broad exploration to focused exploitation, and how the shape of the outcome distribution changes as more information is gathered.
+A central visual summary is a 2×2 grid of outcome distributions—one for each optimization phase. Read left to right, top to bottom, these plots show how the search evolves from broad exploration to focused exploitation, and how the shape of the outcome distribution changes as the parameters are tuned.
 
 ![Outcome distributions across optimization phases](images/battleMage_phase_distributions_2x2.png)
 
